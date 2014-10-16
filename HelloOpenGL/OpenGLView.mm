@@ -388,7 +388,7 @@ void updateBalls(float dt)
             if (dist < balls[i].radius + balls[j].radius)
             {
                 collision2Ds(1.0f, 1.0f, 1.0f, balls[i].position[0], balls[i].position[1], balls[j].position[0], balls[j].position[1],
-                             &balls[i].velocity[0], &balls[i].velocity[1], &balls[j].velocity[0], &balls[j].velocity[1]);
+                             balls[i].velocity[0], balls[i].velocity[1], balls[j].velocity[0], balls[j].velocity[1]);
             }
         }
 
