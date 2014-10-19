@@ -8,126 +8,11 @@
 
 #import "OpenGLView.h"
 #import "CC3GLMatrix.h"
-
+#include <vector>
+#include "Ball.h"
 #include "BallCollisionDetection.h"
 
 @implementation OpenGLView
-
-typedef struct {
-    float Position[3];
-    float Color[4];
-    float TexCoord[2]; // New
-} Vertex;
-
-#define TEX_COORD_MAX   4
-
-const Vertex Vertices[] = {
-    // Front
-    {{1, -1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
-    {{1, 1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
-    {{-1, 1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
-    {{-1, -1, 0}, {0, 0, 0, 1}, {0, 0}},
-    // Back
-    {{1, 1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
-    {{-1, -1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
-    {{1, -1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
-    {{-1, 1, -2}, {0, 0, 0, 1}, {0, 0}},
-    // Left
-    {{-1, -1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}}, 
-    {{-1, 1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
-    {{-1, 1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
-    {{-1, -1, -2}, {0, 0, 0, 1}, {0, 0}},
-    // Right
-    {{1, -1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
-    {{1, 1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
-    {{1, 1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
-    {{1, -1, 0}, {0, 0, 0, 1}, {0, 0}},
-    // Top
-    {{1, 1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
-    {{1, 1, -2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
-    {{-1, 1, -2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
-    {{-1, 1, 0}, {0, 0, 0, 1}, {0, 0}},
-    // Bottom
-    {{1, -1, -2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
-    {{1, -1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
-    {{-1, -1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}}, 
-    {{-1, -1, -2}, {0, 0, 0, 1}, {0, 0}}
-};
-
-const GLubyte Indices[] = {
-    // Front
-    0, 1, 2,
-    2, 3, 0,
-    // Back
-    4, 5, 6,
-    6, 7, 4,
-    // Left
-    8, 9, 10,
-    10, 11, 8,
-    // Right
-    12, 13, 14,
-    14, 15, 12,
-    // Top
-    16, 17, 18,
-    18, 19, 16,
-    // Bottom
-    20, 21, 22,
-    22, 23, 20
-};
-
-const Vertex Vertices2[] = {
-    {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
-    {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
-    {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
-    {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
-};
-
-Vertex VertexBuffers[][NUMBERER] = {
-    {
-        {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
-        {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
-        {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
-        {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
-    },{
-        {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
-        {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
-        {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
-        {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
-    },{
-        {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
-        {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
-        {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
-        {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
-    },{
-        {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
-        {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
-        {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
-        {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
-    },{
-        {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
-        {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
-        {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
-        {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
-    }
-};
-
-const GLubyte Indices2[] = {
-    1, 0, 2, 3
-};
-
-const GLubyte IndexBuffers[][NUMBERER] = {
-    {
-        1, 0, 2, 3
-    },{
-        1, 0, 2, 3
-    },{
-        1, 0, 2, 3
-    },{
-        1, 0, 2, 3
-    },{
-        1, 0, 2, 3
-    }
-};
 
 + (Class)layerClass {
     return [CAEAGLLayer class];
@@ -250,85 +135,29 @@ const GLubyte IndexBuffers[][NUMBERER] = {
     
 }
 
-- (void)setupVBOs {
-    
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_vertexBuffer2);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), Vertices2, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_indexBuffer2);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), Indices2, GL_STATIC_DRAW);
-    
-    for (int i = 0; i < NUMBERER; i ++)
-    {
-        glGenBuffers(1, &(_vertexBuffers[i]));
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffers[i]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), VertexBuffers[i], GL_DYNAMIC_DRAW);
-        
-        glGenBuffers(1, &_indexBuffers[i]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffers[i]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), IndexBuffers[i], GL_DYNAMIC_DRAW);
-    }
-    
-    
-}
-
--(void)updateVBOs {
-    for (int i = 0; i < NUMBERER; i ++)
-    {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffers[i]);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertices2), VertexBuffers[i]);
-    }
-}
-
-void updateSprite(Vertex* vertex, float *position)
-{
-    float vertCorners[][4] = {{0.5, -0.5, 0.01},{0.5, 0.5, 0.01},{-0.5, 0.5, 0.01},{-0.5, -0.5, 0.01}};
-    
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            vertex[i].Position[j] = position[j] + vertCorners[i][j];
-        }
-    }
-
-}
-
-typedef struct {
-    float position[3];
-    double velocity[3];
-    float radius;
-} Ball;
 
 #define MAX_BALLS 5
-Ball balls[MAX_BALLS];
-
+//Ball balls[MAX_BALLS];
+std::vector<Ball*> balls;
 
 #define BOTTOM_OF_SCREEN -5.0f
 #define SCREEN_WIDTH 0.5f
 #define SECONDS_BETWEEN_BALLS 0.33f
 #define BALL_RADIUS 0.5f
-int numBalls = 0;
+//int numBalls = 0;
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
 void emitBalls(float dt)
 {
-    if (numBalls < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
+    if (balls.size() < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
     {
         secondsSinceEmit = 0.0f;
-        balls[numBalls].position[0] = RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f);
-        balls[numBalls].radius = BALL_RADIUS;
-        numBalls++;
+        Ball* ball = new Ball();
+        ball->allocBuffers();
+        ball->setupVBO();
+        ball->setRadius(BALL_RADIUS);
+        ball->setPosition(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 0.0f, 0.0f);
+        balls.push_back(ball);
     }
     secondsSinceEmit += dt;
 }
@@ -378,46 +207,46 @@ float length(float* vec)
 
 void updateBalls(float dt)
 {
-    for (int i = 0; i < numBalls; i++)
+    for (int i = 0; i < balls.size(); i++)
     {
         //check for collision
-        for (int j = i + 1; j < numBalls; j++)
+        for (int j = i + 1; j < balls.size(); j++)
         {
-            float dist = distance(balls[i].position, balls[j].position);
+            float dist = distance(balls[i]->position, balls[j]->position);
 //            NSLog(@"%f",dist);
-            if (dist < balls[i].radius + balls[j].radius)
+            if (dist < balls[i]->radius + balls[j]->radius)
             {
-                collision2Ds(1.0f, 1.0f, 1.0f, balls[i].position[0], balls[i].position[1], balls[j].position[0], balls[j].position[1],
-                             balls[i].velocity[0], balls[i].velocity[1], balls[j].velocity[0], balls[j].velocity[1]);
+                collision2Ds(1.0f, 1.0f, 1.0f, balls[i]->position[0], balls[i]->position[1], balls[j]->position[0], balls[j]->position[1],
+                             balls[i]->velocity[0], balls[i]->velocity[1], balls[j]->velocity[0], balls[j]->velocity[1]);
             }
         }
 
         //gravity
-        balls[i].velocity[1] = balls[i].velocity[1] + GRAVITY*dt;
+        balls[i]->velocity[1] = balls[i]->velocity[1] + GRAVITY*dt;
         
         //update position
         for (int k = 0; k < 3; k++)
         {
-            balls[i].position[k] = balls[i].position[k] + balls[i].velocity[k]*dt;
+            balls[i]->position[k] = balls[i]->position[k] + balls[i]->velocity[k]*dt;
         }
         
         
         //ok, clamp that bitch to the screen
-        if (balls[i].position[1] < BOTTOM_OF_SCREEN)
+        if (balls[i]->position[1] < BOTTOM_OF_SCREEN)
         {
-            balls[i].position[1] = BOTTOM_OF_SCREEN;
-            balls[i].velocity[1] = -balls[i].velocity[1] * BOUNCE_DAMPING;
+            balls[i]->position[1] = BOTTOM_OF_SCREEN;
+            balls[i]->velocity[1] = -balls[i]->velocity[1] * BOUNCE_DAMPING;
         }
         //if we are outside the bounds, SEND IT BACK!.
-        if (balls[i].position[0] > SCREEN_WIDTH)
+        if (balls[i]->position[0] > SCREEN_WIDTH)
         {
-            balls[i].velocity[0] *= -BOUNCE_DAMPING;
-            balls[i].position[0] = SCREEN_WIDTH;
+            balls[i]->velocity[0] *= -BOUNCE_DAMPING;
+            balls[i]->position[0] = SCREEN_WIDTH;
         }
-        else if (balls[i].position[0] < -SCREEN_WIDTH)
+        else if (balls[i]->position[0] < -SCREEN_WIDTH)
         {
-            balls[i].velocity[0] *= -BOUNCE_DAMPING;
-            balls[i].position[0] = -SCREEN_WIDTH;
+            balls[i]->velocity[0] *= -BOUNCE_DAMPING;
+            balls[i]->position[0] = -SCREEN_WIDTH;
         }
     }
 }
@@ -498,19 +327,19 @@ void updateBalls(float dt)
     emitBalls(displayLink.duration);
     updateBalls(displayLink.duration);
     
-    for (int i = 0; i < numBalls; i++)
+    for (int i = 0; i < balls.size(); i++)
     {
-        updateSprite(VertexBuffers[i], balls[i].position);
+        //updateSprite(VertexBuffers[i], balls[i].position);
+        balls[i]->update();
     }
     
-    [self updateVBOs];
+//    [self updateVBOs];
 
-    int i = 0;
-    for (i = 0; i < numBalls; i ++)
+    for (int i = 0; i < balls.size(); i ++)
     {
-        
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffers[i]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffers[i]);
+        //THIS NEEDS TO BE MOVED TO THE DRAW
+        glBindBuffer(GL_ARRAY_BUFFER, balls[i]->getVertexBuffer());
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, balls[i]->getIndexBuffer());
         
         glActiveTexture(GL_TEXTURE0); // unneccc in practice
         glBindTexture(GL_TEXTURE_2D, _fishTexture);
@@ -522,7 +351,7 @@ void updateBalls(float dt)
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
         glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
         
-        glDrawElements(GL_TRIANGLE_STRIP, sizeof(_indexBuffers[i])/sizeof(GLubyte), GL_UNSIGNED_BYTE, 0);
+        glDrawElements(GL_TRIANGLE_STRIP, sizeof(balls[i]->getIndexBuffer())/sizeof(GLubyte), GL_UNSIGNED_BYTE, 0);
     }
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];
