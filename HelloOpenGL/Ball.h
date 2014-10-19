@@ -16,7 +16,7 @@ public:
     //Ball();
     
     void draw();
-    void update(){
+    void onUpdated(){
         updatePosition(position[0], position[1], position[2]);
         updateVBO();
     }

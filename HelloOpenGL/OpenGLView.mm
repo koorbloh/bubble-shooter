@@ -137,14 +137,12 @@
 
 
 #define MAX_BALLS 5
-//Ball balls[MAX_BALLS];
 std::vector<Ball*> balls;
 
 #define BOTTOM_OF_SCREEN -5.0f
 #define SCREEN_WIDTH 0.5f
 #define SECONDS_BETWEEN_BALLS 0.33f
 #define BALL_RADIUS 0.5f
-//int numBalls = 0;
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
 void emitBalls(float dt)
@@ -161,7 +159,6 @@ void emitBalls(float dt)
     }
     secondsSinceEmit += dt;
 }
-
 
 #define GRAVITY -4.9f
 #define BOUNCE_DAMPING 0.25f
@@ -213,7 +210,6 @@ void updateBalls(float dt)
         for (int j = i + 1; j < balls.size(); j++)
         {
             float dist = distance(balls[i]->position, balls[j]->position);
-//            NSLog(@"%f",dist);
             if (dist < balls[i]->radius + balls[j]->radius)
             {
                 collision2Ds(1.0f, 1.0f, 1.0f, balls[i]->position[0], balls[i]->position[1], balls[j]->position[0], balls[j]->position[1],
@@ -229,7 +225,6 @@ void updateBalls(float dt)
         {
             balls[i]->position[k] = balls[i]->position[k] + balls[i]->velocity[k]*dt;
         }
-        
         
         //ok, clamp that bitch to the screen
         if (balls[i]->position[1] < BOTTOM_OF_SCREEN)
@@ -251,6 +246,14 @@ void updateBalls(float dt)
     }
 }
 
+void updateBallDrawData()
+{
+    for (int i = 0; i < balls.size(); i++)
+    {
+        balls[i]->onUpdated();
+    }
+}
+
 
 - (void)render:(CADisplayLink*)displayLink {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -266,78 +269,19 @@ void updateBalls(float dt)
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
     
     CC3GLMatrix *modelView = [CC3GLMatrix matrix];
-    [modelView populateFromTranslation:CC3VectorMake(0, 0, -7)]; //[modelView populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -7)];
-    //_currentRotation += displayLink.duration * 90;
+    [modelView populateFromTranslation:CC3VectorMake(0, 0, -7)];
     [modelView rotateBy:CC3VectorMake(_currentRotation, _currentRotation, 0)];
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
     
     // 1
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-        
-    /*glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     
-    
-    
-    
-    
-    // 2
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
-    
-    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));    
-    
-    glActiveTexture(GL_TEXTURE0); 
-    glBindTexture(GL_TEXTURE_2D, _floorTexture);
-    glUniform1i(_textureUniform, 0); 
-    
-    // 3
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
-    
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
-    
-    glActiveTexture(GL_TEXTURE0); // unneccc in practice
-    glBindTexture(GL_TEXTURE_2D, _fishTexture);
-    glUniform1i(_textureUniform, 0); // unnecc in practice
-    
-    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
-    
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
-    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
-    
-    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);*/
-    /*
-    for (int i = 0; i < NUMBERER; i ++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            VertexBuffers[i][j].Position[0] += sin(1.0f - ((float)i/5.0f))/100;
-        }
-    }*/
-    
-    /*for (int j = 0; j < 4; j++)
-    {
-        VertexBuffers[0][j].Position[1] -= sin(1.0f - ((float)1/5.0f))/100;
-    }*/
-    
-//    balls[0].position[1] -= .1;
     emitBalls(displayLink.duration);
     updateBalls(displayLink.duration);
+    updateBallDrawData();
     
-    for (int i = 0; i < balls.size(); i++)
-    {
-        //updateSprite(VertexBuffers[i], balls[i].position);
-        balls[i]->update();
-    }
-    
-//    [self updateVBOs];
-
     for (int i = 0; i < balls.size(); i ++)
     {
-        //THIS NEEDS TO BE MOVED TO THE DRAW
         glBindBuffer(GL_ARRAY_BUFFER, balls[i]->getVertexBuffer());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, balls[i]->getIndexBuffer());
         
@@ -408,7 +352,6 @@ void updateBalls(float dt)
         [self setupRenderBuffer];        
         [self setupFrameBuffer];     
         [self compileShaders];
-        [self setupVBOs];
         [self setupDisplayLink];
         _floorTexture = [self setupTexture:@"tile_floor.png"];
         _fishTexture = [self setupTexture:@"item_powerup_fish.png"];
