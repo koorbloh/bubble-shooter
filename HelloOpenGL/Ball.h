@@ -30,11 +30,15 @@ public:
     void setRadius(float r) {
         radius = r;
     }
+    
+    float *getPosition() { return position; }
+    double *getVelocity() { return velocity; }
+    float getRadius() { return radius; }
         
+private:
     float position[3];
     double velocity[3];
     float radius;
-private:
 };
 
 #endif /* defined(__HelloOpenGL__Ball__) */

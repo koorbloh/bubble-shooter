@@ -209,39 +209,39 @@ void updateBalls(float dt)
         //check for collision
         for (int j = i + 1; j < balls.size(); j++)
         {
-            float dist = distance(balls[i]->position, balls[j]->position);
-            if (dist < balls[i]->radius + balls[j]->radius)
+            float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
+            if (dist < balls[i]->getRadius() + balls[j]->getRadius())
             {
-                collision2Ds(1.0f, 1.0f, 1.0f, balls[i]->position[0], balls[i]->position[1], balls[j]->position[0], balls[j]->position[1],
-                             balls[i]->velocity[0], balls[i]->velocity[1], balls[j]->velocity[0], balls[j]->velocity[1]);
+                collision2Ds(1.0f, 1.0f, 1.0f, balls[i]->getPosition()[0], balls[i]->getPosition()[1], balls[j]->getPosition()[0], balls[j]->getPosition()[1],
+                             balls[i]->getVelocity()[0], balls[i]->getVelocity()[1], balls[j]->getVelocity()[0], balls[j]->getVelocity()[1]);
             }
         }
 
         //gravity
-        balls[i]->velocity[1] = balls[i]->velocity[1] + GRAVITY*dt;
+        balls[i]->getVelocity()[1] = balls[i]->getVelocity()[1] + GRAVITY*dt;
         
         //update position
         for (int k = 0; k < 3; k++)
         {
-            balls[i]->position[k] = balls[i]->position[k] + balls[i]->velocity[k]*dt;
+            balls[i]->getPosition()[k] = balls[i]->getPosition()[k] + balls[i]->getVelocity()[k]*dt;
         }
         
         //ok, clamp that bitch to the screen
-        if (balls[i]->position[1] < BOTTOM_OF_SCREEN)
+        if (balls[i]->getPosition()[1] < BOTTOM_OF_SCREEN)
         {
-            balls[i]->position[1] = BOTTOM_OF_SCREEN;
-            balls[i]->velocity[1] = -balls[i]->velocity[1] * BOUNCE_DAMPING;
+            balls[i]->getPosition()[1] = BOTTOM_OF_SCREEN;
+            balls[i]->getVelocity()[1] = -balls[i]->getVelocity()[1] * BOUNCE_DAMPING;
         }
         //if we are outside the bounds, SEND IT BACK!.
-        if (balls[i]->position[0] > SCREEN_WIDTH)
+        if (balls[i]->getPosition()[0] > SCREEN_WIDTH)
         {
-            balls[i]->velocity[0] *= -BOUNCE_DAMPING;
-            balls[i]->position[0] = SCREEN_WIDTH;
+            balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
+            balls[i]->getPosition()[0] = SCREEN_WIDTH;
         }
-        else if (balls[i]->position[0] < -SCREEN_WIDTH)
+        else if (balls[i]->getPosition()[0] < -SCREEN_WIDTH)
         {
-            balls[i]->velocity[0] *= -BOUNCE_DAMPING;
-            balls[i]->position[0] = -SCREEN_WIDTH;
+            balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
+            balls[i]->getPosition()[0] = -SCREEN_WIDTH;
         }
     }
 }
