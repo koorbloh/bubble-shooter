@@ -9,6 +9,8 @@
 #ifndef __HelloOpenGL__BallCollisionDetection__
 #define __HelloOpenGL__BallCollisionDetection__
 
+class Vector3;
+
 /*
  SHAMELESSLY STOLEN FROM: http://www.plasmaphysics.org.uk/programs/coll2d_cpp.htm
  */
@@ -91,8 +93,8 @@ void collision2D(char mode,double alpha, double R,
 //****************************************************************************
 
 
-void collision2Ds(double m1, double m2, double R,
-                  double x1, double y1, double x2, double y2,
-                  double& vx1, double& vy1, double& vx2, double& vy2);
+
+void collision2Ds(float m1, float m2, float R, const Vector3& pos1, const Vector3 pos2,
+                  Vector3& velocity1, Vector3& velocity2);
 
 #endif /* defined(__HelloOpenGL__BallCollisionDetection__) */

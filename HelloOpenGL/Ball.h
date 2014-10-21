@@ -22,8 +22,8 @@ public:
         updateVBO();
     }
     
-    void setVelocity(double x, double y, double z) {
-        velocity[0] = x; velocity[1] = y; velocity[2] = z;
+    void setVelocity(const Vector3 vel) {
+        velocity = vel;
     }
     void setRadius(float r) {
         radius = r;
@@ -34,12 +34,12 @@ public:
     }
     
     Vector3 getPosition() { return position; }
-    double *getVelocity() { return velocity; }
+    Vector3 getVelocity() { return velocity; }
     float getRadius() { return radius; }
         
 private:
     Vector3 position;
-    double velocity[3];
+    Vector3 velocity;
     float radius;
 };
 

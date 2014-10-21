@@ -207,42 +207,45 @@ void updateBalls(float dt)
             float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
             if (dist < balls[i]->getRadius() + balls[j]->getRadius())
             {
+                Vector3 iVel = balls[i]->getVelocity();
+                Vector3 jVel = balls[j]->getVelocity();
                 collision2Ds(1.0f, 1.0f, 1.0f,
-                             balls[i]->getPosition().x(), balls[i]->getPosition().y(),
-                             balls[j]->getPosition().x(), balls[j]->getPosition().y(),
-                             balls[i]->getVelocity()[0], balls[i]->getVelocity()[1],
-                             balls[j]->getVelocity()[0], balls[j]->getVelocity()[1]);
+                             balls[i]->getPosition(), balls[j]->getPosition(),
+                             iVel, jVel);
+                balls[i]->setVelocity(iVel);
+                balls[j]->setVelocity(jVel);
             }
         }
 
+        Vector3 pos = balls[i]->getPosition();
+        Vector3 vel = balls[i]->getVelocity();
+        
         //gravity
-        balls[i]->getVelocity()[1] = balls[i]->getVelocity()[1] + GRAVITY*dt;
+        vel.setY(vel.y() + GRAVITY*dt);
         
         //update position
-        Vector3 pos = balls[i]->getPosition();
-        for (int k = 0; k < 3; k++)
-        {
-            pos.getData()[k] = pos.getData()[k] + balls[i]->getVelocity()[k]*dt;
-        }
+        pos.setX(pos.x() + vel.x()*dt);
+        pos.setY(pos.y() + vel.y()*dt);
+        pos.setZ(pos.z() + vel.z()*dt);
         
         //ok, clamp that bitch to the screen
-        if (balls[i]->getPosition().y() < BOTTOM_OF_SCREEN)
+        if (pos.y() < BOTTOM_OF_SCREEN)
         {
             pos.setY(BOTTOM_OF_SCREEN);
-            balls[i]->getVelocity()[1] = -balls[i]->getVelocity()[1] * BOUNCE_DAMPING;
+            vel.setY(-vel.y() * BOUNCE_DAMPING);
         }
         //if we are outside the bounds, SEND IT BACK!.
-        if (balls[i]->getPosition().x() > SCREEN_WIDTH)
+        if (pos.x() > SCREEN_WIDTH)
         {
-            balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
+            vel.setX(vel.x() * -BOUNCE_DAMPING);
             pos.setX(SCREEN_WIDTH);
         }
-        else if (balls[i]->getPosition().x() < -SCREEN_WIDTH)
+        else if (pos.x() < -SCREEN_WIDTH)
         {
-            balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
+            vel.setX(vel.x() * -BOUNCE_DAMPING);
             pos.setX(-SCREEN_WIDTH);
         }
-
+        balls[i]->setVelocity(vel);
         balls[i]->setPosition(pos);
     }
 }

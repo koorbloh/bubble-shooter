@@ -8,6 +8,7 @@
 
 #include "BallCollisionDetection.h"
 #import <math.h>
+#include "Vector.h"
 
 /*
  SHAMELESSLY STOLEN FROM: http://www.plasmaphysics.org.uk/programs/coll2d_cpp.htm
@@ -181,11 +182,20 @@ void collision2D(char mode,double alpha, double R,
 //****************************************************************************
 
 
-void collision2Ds(double m1, double m2, double R,
-                  double x1, double y1, double x2, double y2,
-                  double& vx1, double& vy1, double& vx2, double& vy2)     {
+
+void collision2Ds(float m1, float m2, float R, const Vector3& pos1, const Vector3 pos2,
+                  Vector3& velocity1, Vector3& velocity2) {
+
+    float x1 = pos1.x();
+    float y1 = pos1.y();
+    float x2 = pos2.x();
+    float y2 = pos2.y();
+    float vx1 = velocity1.x();
+    float vy1 = velocity1.y();
+    float vx2 = velocity2.x();
+    float vy2 = velocity2.y();
     
-    double  m21,dvx2,a,x21,y21,vx21,vy21,fy21,sign,vx_cm,vy_cm;
+    float  m21,dvx2,a,x21,y21,vx21,vy21,fy21,sign,vx_cm,vy_cm;
     
     
     m21=m2/m1;
@@ -221,10 +231,10 @@ void collision2Ds(double m1, double m2, double R,
     vy1=vy1-a*m21*dvx2;
     
     //     ***  velocity correction for inelastic collisions ***
-    vx1=(vx1-vx_cm)*R + vx_cm;
-    vy1=(vy1-vy_cm)*R + vy_cm;
-    vx2=(vx2-vx_cm)*R + vx_cm;
-    vy2=(vy2-vy_cm)*R + vy_cm;
+    velocity1.setX((vx1-vx_cm)*R + vx_cm);
+    velocity1.setY((vy1-vy_cm)*R + vy_cm);
+    velocity2.setX((vx2-vx_cm)*R + vx_cm);
+    velocity2.setY((vy2-vy_cm)*R + vy_cm);
     
     return;
 }
