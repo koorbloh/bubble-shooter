@@ -23,6 +23,10 @@ public:
     float y() const {return data[1];}
     float z() const {return data[2];}
     
+    void setX(float val) { data[0] = val; }
+    void setY(float val) { data[1] = val; }
+    void setZ(float val) { data[2] = val; }
+    
     float lengthSq() { return pow(x(),2) + pow(y(),2) + pow(z(),2); }
     float length() { return sqrtf(lengthSq()); }
     

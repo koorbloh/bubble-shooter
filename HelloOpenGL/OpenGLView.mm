@@ -208,8 +208,8 @@ void updateBalls(float dt)
             if (dist < balls[i]->getRadius() + balls[j]->getRadius())
             {
                 collision2Ds(1.0f, 1.0f, 1.0f,
-                             balls[i]->getPosition().getData()[0], balls[i]->getPosition().getData()[1],
-                             balls[j]->getPosition().getData()[0], balls[j]->getPosition().getData()[1],
+                             balls[i]->getPosition().x(), balls[i]->getPosition().y(),
+                             balls[j]->getPosition().x(), balls[j]->getPosition().y(),
                              balls[i]->getVelocity()[0], balls[i]->getVelocity()[1],
                              balls[j]->getVelocity()[0], balls[j]->getVelocity()[1]);
             }
@@ -226,21 +226,21 @@ void updateBalls(float dt)
         }
         
         //ok, clamp that bitch to the screen
-        if (balls[i]->getPosition().getData()[1] < BOTTOM_OF_SCREEN)
+        if (balls[i]->getPosition().y() < BOTTOM_OF_SCREEN)
         {
-            pos.getData()[1] = BOTTOM_OF_SCREEN;
+            pos.setY(BOTTOM_OF_SCREEN);
             balls[i]->getVelocity()[1] = -balls[i]->getVelocity()[1] * BOUNCE_DAMPING;
         }
         //if we are outside the bounds, SEND IT BACK!.
-        if (balls[i]->getPosition().getData()[0] > SCREEN_WIDTH)
+        if (balls[i]->getPosition().x() > SCREEN_WIDTH)
         {
             balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
-            pos.getData()[0] = SCREEN_WIDTH;
+            pos.setX(SCREEN_WIDTH);
         }
-        else if (balls[i]->getPosition().getData()[0] < -SCREEN_WIDTH)
+        else if (balls[i]->getPosition().x() < -SCREEN_WIDTH)
         {
             balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
-            pos.getData()[0] = -SCREEN_WIDTH;
+            pos.setX(-SCREEN_WIDTH);
         }
 
         balls[i]->setPosition(pos);

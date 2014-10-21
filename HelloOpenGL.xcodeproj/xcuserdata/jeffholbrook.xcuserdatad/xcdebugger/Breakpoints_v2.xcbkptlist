@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HelloOpenGL/Vector.h"
-            timestampString = "435556165.329861"
+            timestampString = "435556537.244531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "distance(const Vector3&amp; a, const Vector3&amp; b)"
             landmarkType = "7">
          </BreakpointContent>
