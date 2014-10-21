@@ -136,11 +136,11 @@
 }
 
 
-#define MAX_BALLS 5
+#define MAX_BALLS 20
 std::vector<Ball*> balls;
 
 #define BOTTOM_OF_SCREEN -5.0f
-#define SCREEN_WIDTH 0.5f
+#define SCREEN_WIDTH 1.5f
 #define SECONDS_BETWEEN_BALLS 0.33f
 #define BALL_RADIUS 0.5f
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
@@ -154,7 +154,7 @@ void emitBalls(float dt)
         ball->allocBuffers();
         ball->setupVBO();
         ball->setRadius(BALL_RADIUS);
-        ball->setPosition(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 0.0f, 0.0f);
+        ball->setPosition(Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 0.0f, 0.0f));
         balls.push_back(ball);
     }
     secondsSinceEmit += dt;
@@ -162,11 +162,6 @@ void emitBalls(float dt)
 
 #define GRAVITY -4.9f
 #define BOUNCE_DAMPING 0.25f
-
-float distance(float* pos1, float* pos2)
-{
-    return sqrt(pow(pos2[0] - pos1[0],2) + pow(pos2[1] - pos1[1],2) + pow(pos2[2] - pos1[2],2));
-}
 
 void sub(float* vec1, float* vec2, float *result)
 {
@@ -212,8 +207,11 @@ void updateBalls(float dt)
             float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
             if (dist < balls[i]->getRadius() + balls[j]->getRadius())
             {
-                collision2Ds(1.0f, 1.0f, 1.0f, balls[i]->getPosition()[0], balls[i]->getPosition()[1], balls[j]->getPosition()[0], balls[j]->getPosition()[1],
-                             balls[i]->getVelocity()[0], balls[i]->getVelocity()[1], balls[j]->getVelocity()[0], balls[j]->getVelocity()[1]);
+                collision2Ds(1.0f, 1.0f, 1.0f,
+                             balls[i]->getPosition().getData()[0], balls[i]->getPosition().getData()[1],
+                             balls[j]->getPosition().getData()[0], balls[j]->getPosition().getData()[1],
+                             balls[i]->getVelocity()[0], balls[i]->getVelocity()[1],
+                             balls[j]->getVelocity()[0], balls[j]->getVelocity()[1]);
             }
         }
 
@@ -221,28 +219,31 @@ void updateBalls(float dt)
         balls[i]->getVelocity()[1] = balls[i]->getVelocity()[1] + GRAVITY*dt;
         
         //update position
+        Vector3 pos = balls[i]->getPosition();
         for (int k = 0; k < 3; k++)
         {
-            balls[i]->getPosition()[k] = balls[i]->getPosition()[k] + balls[i]->getVelocity()[k]*dt;
+            pos.getData()[k] = pos.getData()[k] + balls[i]->getVelocity()[k]*dt;
         }
         
         //ok, clamp that bitch to the screen
-        if (balls[i]->getPosition()[1] < BOTTOM_OF_SCREEN)
+        if (balls[i]->getPosition().getData()[1] < BOTTOM_OF_SCREEN)
         {
-            balls[i]->getPosition()[1] = BOTTOM_OF_SCREEN;
+            pos.getData()[1] = BOTTOM_OF_SCREEN;
             balls[i]->getVelocity()[1] = -balls[i]->getVelocity()[1] * BOUNCE_DAMPING;
         }
         //if we are outside the bounds, SEND IT BACK!.
-        if (balls[i]->getPosition()[0] > SCREEN_WIDTH)
+        if (balls[i]->getPosition().getData()[0] > SCREEN_WIDTH)
         {
             balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
-            balls[i]->getPosition()[0] = SCREEN_WIDTH;
+            pos.getData()[0] = SCREEN_WIDTH;
         }
-        else if (balls[i]->getPosition()[0] < -SCREEN_WIDTH)
+        else if (balls[i]->getPosition().getData()[0] < -SCREEN_WIDTH)
         {
             balls[i]->getVelocity()[0] *= -BOUNCE_DAMPING;
-            balls[i]->getPosition()[0] = -SCREEN_WIDTH;
+            pos.getData()[0] = -SCREEN_WIDTH;
         }
+
+        balls[i]->setPosition(pos);
     }
 }
 

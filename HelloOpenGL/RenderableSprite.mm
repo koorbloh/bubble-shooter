@@ -8,6 +8,7 @@
 
 #include <cstring>
 #include "RenderableSprite.h"
+#include "Vector.h"
 
 static Vertex baseSpriteVertices[] = {
     {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
@@ -72,6 +73,11 @@ void RenderableSprite::updatePosition(float x, float y, float z)
         vert[i].Position[1] = y + baseSpriteVertices[i].Position[1];
         vert[i].Position[2] = z + baseSpriteVertices[i].Position[2];
     }
+}
+
+void RenderableSprite::updatePosition(const Vector3& pos)
+{
+    updatePosition(pos.x(), pos.y(), pos.z());
 }
 
 GLuint RenderableSprite::getIndexBuffer()

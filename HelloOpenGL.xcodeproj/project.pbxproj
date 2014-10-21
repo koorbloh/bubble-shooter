@@ -26,9 +26,10 @@
 		35DF647C138C7A0900FF9459 /* CC3Kazmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35DF6475138C7A0900FF9459 /* CC3Kazmath.cpp */; };
 		35DF647D138C7A0900FF9459 /* CC3Math.mm in Sources */ = {isa = PBXBuildFile; fileRef = 35DF6479138C7A0900FF9459 /* CC3Math.mm */; };
 		35DF647F138C869600FF9459 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DF647E138C869600FF9459 /* Icon.png */; };
-		5463407C19E9958D00282E15 /* BallCollisionDetection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5463407A19E9958D00282E15 /* BallCollisionDetection.cpp */; };
-		54CB8BEB19F0C2FA00D3A6B1 /* RenderableSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.cpp */; };
-		54CB8BEE19F0C31B00D3A6B1 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CB8BEC19F0C31B00D3A6B1 /* Ball.cpp */; };
+		5463407C19E9958D00282E15 /* BallCollisionDetection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5463407A19E9958D00282E15 /* BallCollisionDetection.mm */; };
+		54A1F2E719F3638200176350 /* Vector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54A1F2E519F3638200176350 /* Vector.mm */; };
+		54CB8BEB19F0C2FA00D3A6B1 /* RenderableSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.mm */; };
+		54CB8BEE19F0C31B00D3A6B1 /* Ball.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54CB8BEC19F0C31B00D3A6B1 /* Ball.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,11 +63,13 @@
 		35DF6478138C7A0900FF9459 /* CC3Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CC3Math.h; sourceTree = "<group>"; };
 		35DF6479138C7A0900FF9459 /* CC3Math.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CC3Math.mm; sourceTree = "<group>"; };
 		35DF647E138C869600FF9459 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		5463407A19E9958D00282E15 /* BallCollisionDetection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BallCollisionDetection.cpp; sourceTree = "<group>"; };
+		5463407A19E9958D00282E15 /* BallCollisionDetection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BallCollisionDetection.mm; sourceTree = "<group>"; };
 		5463407B19E9958D00282E15 /* BallCollisionDetection.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = BallCollisionDetection.h; sourceTree = "<group>"; };
-		54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderableSprite.cpp; sourceTree = "<group>"; };
+		54A1F2E519F3638200176350 /* Vector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Vector.mm; sourceTree = "<group>"; };
+		54A1F2E619F3638200176350 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderableSprite.mm; sourceTree = "<group>"; };
 		54CB8BEA19F0C2FA00D3A6B1 /* RenderableSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderableSprite.h; sourceTree = "<group>"; };
-		54CB8BEC19F0C31B00D3A6B1 /* Ball.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ball.cpp; sourceTree = "<group>"; };
+		54CB8BEC19F0C31B00D3A6B1 /* Ball.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ball.mm; sourceTree = "<group>"; };
 		54CB8BED19F0C31B00D3A6B1 /* Ball.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ball.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,12 +140,14 @@
 				35DF645A138C422800FF9459 /* OpenGLView.h */,
 				35DF645B138C422800FF9459 /* OpenGLView.mm */,
 				35DF6447138C40D500FF9459 /* Supporting Files */,
-				5463407A19E9958D00282E15 /* BallCollisionDetection.cpp */,
+				5463407A19E9958D00282E15 /* BallCollisionDetection.mm */,
 				5463407B19E9958D00282E15 /* BallCollisionDetection.h */,
-				54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.cpp */,
+				54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.mm */,
 				54CB8BEA19F0C2FA00D3A6B1 /* RenderableSprite.h */,
-				54CB8BEC19F0C31B00D3A6B1 /* Ball.cpp */,
+				54CB8BEC19F0C31B00D3A6B1 /* Ball.mm */,
 				54CB8BED19F0C31B00D3A6B1 /* Ball.h */,
+				54A1F2E519F3638200176350 /* Vector.mm */,
+				54A1F2E619F3638200176350 /* Vector.h */,
 			);
 			path = HelloOpenGL;
 			sourceTree = "<group>";
@@ -243,11 +248,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				35DF644E138C40D500FF9459 /* main.mm in Sources */,
-				5463407C19E9958D00282E15 /* BallCollisionDetection.cpp in Sources */,
+				5463407C19E9958D00282E15 /* BallCollisionDetection.mm in Sources */,
 				35DF6451138C40D500FF9459 /* HelloOpenGLAppDelegate.mm in Sources */,
 				35DF645C138C422900FF9459 /* OpenGLView.mm in Sources */,
-				54CB8BEE19F0C31B00D3A6B1 /* Ball.cpp in Sources */,
-				54CB8BEB19F0C2FA00D3A6B1 /* RenderableSprite.cpp in Sources */,
+				54CB8BEE19F0C31B00D3A6B1 /* Ball.mm in Sources */,
+				54A1F2E719F3638200176350 /* Vector.mm in Sources */,
+				54CB8BEB19F0C2FA00D3A6B1 /* RenderableSprite.mm in Sources */,
 				35DF647A138C7A0900FF9459 /* CC3Foundation.mm in Sources */,
 				35DF647B138C7A0900FF9459 /* CC3GLMatrix.mm in Sources */,
 				35DF647C138C7A0900FF9459 /* CC3Kazmath.cpp in Sources */,

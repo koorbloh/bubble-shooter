@@ -19,6 +19,7 @@ typedef struct {
     float TexCoord[2]; // New
 } Vertex;
 
+class Vector3;
 
 class RenderableSprite {
 public:
@@ -32,6 +33,7 @@ public:
     void cleanupVBO();
     
     void updatePosition(float x, float y, float z);
+    void updatePosition(const Vector3& pos);
     
     GLuint getIndexBuffer();
     GLuint getVertexBuffer();    

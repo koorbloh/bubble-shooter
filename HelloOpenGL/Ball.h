@@ -10,6 +10,7 @@
 #define __HelloOpenGL__Ball__
 
 #include "RenderableSprite.h"
+#include "Vector.h"
 
 class Ball : public RenderableSprite {
 public:
@@ -17,26 +18,27 @@ public:
     
     void draw();
     void onUpdated(){
-        updatePosition(position[0], position[1], position[2]);
+        updatePosition(position);
         updateVBO();
     }
     
     void setVelocity(double x, double y, double z) {
-        position[0] = x; position[1] = y; position[2] = z;
-    }
-    void setPosition(float x, float y, float z) {
         velocity[0] = x; velocity[1] = y; velocity[2] = z;
     }
     void setRadius(float r) {
         radius = r;
     }
     
-    float *getPosition() { return position; }
+    void setPosition(const Vector3& pos) {
+        position = pos;
+    }
+    
+    Vector3 getPosition() { return position; }
     double *getVelocity() { return velocity; }
     float getRadius() { return radius; }
         
 private:
-    float position[3];
+    Vector3 position;
     double velocity[3];
     float radius;
 };
