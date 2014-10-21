@@ -136,12 +136,12 @@
 }
 
 
-#define MAX_BALLS 20
+#define MAX_BALLS 5
 std::vector<Ball*> balls;
 
 #define BOTTOM_OF_SCREEN -5.0f
-#define SCREEN_WIDTH 1.5f
-#define SECONDS_BETWEEN_BALLS 0.33f
+#define SCREEN_WIDTH 0.5f
+#define SECONDS_BETWEEN_BALLS 0.5f
 #define BALL_RADIUS 0.5f
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
@@ -154,7 +154,7 @@ void emitBalls(float dt)
         ball->allocBuffers();
         ball->setupVBO();
         ball->setRadius(BALL_RADIUS);
-        ball->setPosition(Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 0.0f, 0.0f));
+        ball->setPosition(Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f));
         balls.push_back(ball);
     }
     secondsSinceEmit += dt;
@@ -162,40 +162,6 @@ void emitBalls(float dt)
 
 #define GRAVITY -4.9f
 #define BOUNCE_DAMPING 0.25f
-
-void sub(float* vec1, float* vec2, float *result)
-{
-    result[0] = vec1[0] - vec2[0];
-    result[1] = vec1[1] - vec2[1];
-    result[2] = vec1[2] - vec2[2];
-}
-
-void subd(double* vec1, double* vec2, double *result)
-{
-    result[0] = vec1[0] - vec2[0];
-    result[1] = vec1[1] - vec2[1];
-    result[2] = vec1[2] - vec2[2];
-}
-
-double lengthSqd(double* vec)
-{
-    return pow(vec[0], 2) + pow(vec[1], 2) + pow(vec[2], 2);
-}
-
-double lengthd(double* vec)
-{
-    return sqrt(lengthSqd(vec));
-}
-
-float lengthSq(float* vec)
-{
-    return pow(vec[0], 2) + pow(vec[1], 2) + pow(vec[2], 2);
-}
-
-float length(float* vec)
-{
-    return sqrt(lengthSq(vec));
-}
 
 void updateBalls(float dt)
 {
