@@ -136,7 +136,7 @@
 }
 
 
-#define MAX_BALLS 5
+#define MAX_BALLS 20
 std::vector<Ball*> balls;
 
 #define BOTTOM_OF_SCREEN -5.0f
@@ -162,55 +162,76 @@ void emitBalls(float dt)
 
 #define GRAVITY -4.9f
 #define BOUNCE_DAMPING 0.25f
+#define REALLY_HEAVY 2.0f
+#define BOTTOM_TOLERANCE 0.01f
 
 void updateBalls(float dt)
 {
     for (int i = 0; i < balls.size(); i++)
     {
+        Vector3 pos = balls[i]->getPosition();
         //check for collision
         for (int j = i + 1; j < balls.size(); j++)
         {
             float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
             if (dist < balls[i]->getRadius() + balls[j]->getRadius())
             {
+                float iMass = 1.0f;
+                float jMass = 1.0f;
                 Vector3 iVel = balls[i]->getVelocity();
                 Vector3 jVel = balls[j]->getVelocity();
-                collision2Ds(1.0f, 1.0f, 1.0f,
+                collision2Ds(iMass, jMass, 1.0f,
                              balls[i]->getPosition(), balls[j]->getPosition(),
                              iVel, jVel);
+                /*if (fabs(pos.y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE)
+                {
+                    iMass = REALLY_HEAVY;
+                }
+                if (fabs(balls[j]->getPosition().y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE)
+                {
+                    jMass = REALLY_HEAVY;
+                }*/
+                
+                if ((fabs(pos.y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE) !=
+                    (fabs(balls[j]->getPosition().y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE))
+                {
+                    collision2Ds(iMass, jMass, 1.0f,
+                                 balls[i]->getPosition(), balls[j]->getPosition(),
+                                 iVel, jVel);                    
+                }
+                
                 balls[i]->setVelocity(iVel);
                 balls[j]->setVelocity(jVel);
             }
         }
 
-        Vector3 pos = balls[i]->getPosition();
         Vector3 vel = balls[i]->getVelocity();
         
         //gravity
         vel.setY(vel.y() + GRAVITY*dt);
+        
+        //ok, clamp that bitch to the screen
+        if (pos.y() < BOTTOM_OF_SCREEN && vel.y() < 0.0f)
+        {
+            vel.setY(-vel.y() * BOUNCE_DAMPING);
+        }
+        //if we are outside the bounds, SEND IT BACK!.
+        if (pos.x() > SCREEN_WIDTH && vel.x() > 0.0f)
+        {
+            vel.setX(vel.x() * -BOUNCE_DAMPING);
+//            pos.setX(SCREEN_WIDTH);
+        }
+        else if (pos.x() < -SCREEN_WIDTH && vel.x() < 0.0f)
+        {
+            vel.setX(vel.x() * -BOUNCE_DAMPING);
+//            pos.setX(-SCREEN_WIDTH);
+        }
         
         //update position
         pos.setX(pos.x() + vel.x()*dt);
         pos.setY(pos.y() + vel.y()*dt);
         pos.setZ(pos.z() + vel.z()*dt);
         
-        //ok, clamp that bitch to the screen
-        if (pos.y() < BOTTOM_OF_SCREEN)
-        {
-            pos.setY(BOTTOM_OF_SCREEN);
-            vel.setY(-vel.y() * BOUNCE_DAMPING);
-        }
-        //if we are outside the bounds, SEND IT BACK!.
-        if (pos.x() > SCREEN_WIDTH)
-        {
-            vel.setX(vel.x() * -BOUNCE_DAMPING);
-            pos.setX(SCREEN_WIDTH);
-        }
-        else if (pos.x() < -SCREEN_WIDTH)
-        {
-            vel.setX(vel.x() * -BOUNCE_DAMPING);
-            pos.setX(-SCREEN_WIDTH);
-        }
         balls[i]->setVelocity(vel);
         balls[i]->setPosition(pos);
     }
