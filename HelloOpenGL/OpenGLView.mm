@@ -12,6 +12,12 @@
 #include "Ball.h"
 #include "BallCollisionDetection.h"
 
+#include <Box2D/Box2D.h>
+
+// Construct a world object, which will hold and simulate the rigid bodies.
+b2World world(b2Vec2(0.0f, -10.0f));
+
+
 @implementation OpenGLView
 
 + (Class)layerClass {
@@ -150,7 +156,7 @@ void emitBalls(float dt)
     if (balls.size() < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
     {
         secondsSinceEmit = 0.0f;
-        Ball* ball = new Ball();
+        Ball* ball = new Ball(&world);
         ball->allocBuffers();
         ball->setupVBO();
         ball->setRadius(BALL_RADIUS);
@@ -167,6 +173,7 @@ void emitBalls(float dt)
 
 void updateBalls(float dt)
 {
+#if 0
     for (int i = 0; i < balls.size(); i++)
     {
         Vector3 pos = balls[i]->getPosition();
@@ -235,6 +242,7 @@ void updateBalls(float dt)
         balls[i]->setVelocity(vel);
         balls[i]->setPosition(pos);
     }
+#endif
 }
 
 void updateBallDrawData()
@@ -269,6 +277,13 @@ void updateBallDrawData()
     
     emitBalls(displayLink.duration);
     updateBalls(displayLink.duration);
+    
+    int32 velocityIterations = 6;
+    int32 positionIterations = 2;
+    
+    world.Step(displayLink.duration, velocityIterations, positionIterations);
+
+    
     updateBallDrawData();
     
     for (int i = 0; i < balls.size(); i ++)
@@ -346,6 +361,26 @@ void updateBallDrawData()
         [self setupDisplayLink];
         _floorTexture = [self setupTexture:@"tile_floor.png"];
         _fishTexture = [self setupTexture:@"item_powerup_fish.png"];
+        
+        
+        // Define the ground body.
+        b2BodyDef groundBodyDef;
+        groundBodyDef.position.Set(0.0f, -10.0f);
+        
+        // Call the body factory which allocates memory for the ground body
+        // from a pool and creates the ground box shape (also from a pool).
+        // The body is also added to the world.
+        b2Body* groundBody = world.CreateBody(&groundBodyDef);
+        
+        // Define the ground box shape.
+        b2PolygonShape groundBox;
+        
+        // The extents are the half-widths of the box.
+        groundBox.SetAsBox(50.0f, 10.0f);
+        
+        // Add the ground fixture to the ground body.
+        groundBody->CreateFixture(&groundBox, 0.0f);
+        
     }
     return self;
 }
