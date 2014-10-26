@@ -142,12 +142,12 @@ b2World world(b2Vec2(0.0f, -10.0f));
 }
 
 
-#define MAX_BALLS 20
+#define MAX_BALLS 100
 std::vector<Ball*> balls;
 
-#define BOTTOM_OF_SCREEN -5.0f
-#define SCREEN_WIDTH 0.5f
-#define SECONDS_BETWEEN_BALLS 0.5f
+#define BOTTOM_OF_SCREEN -6.0f
+#define SCREEN_WIDTH 8.0f
+#define SECONDS_BETWEEN_BALLS 0.1f
 #define BALL_RADIUS 0.5f
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
@@ -348,6 +348,31 @@ void updateBallDrawData()
     
 }
 
+std::vector<b2Body*> groundBodies;
+void createWall(b2World* world, float posX, float posY, float sizeX, float sizeY)
+{
+    // Define the ground body.
+    b2BodyDef groundBodyDef;
+    groundBodyDef.position.Set(posX, posY);
+    
+    // Call the body factory which allocates memory for the ground body
+    // from a pool and creates the ground box shape (also from a pool).
+    // The body is also added to the world.
+    b2Body* groundBody = world->CreateBody(&groundBodyDef);
+    
+    // Define the ground box shape.
+    b2PolygonShape groundBox;
+    
+    // The extents are the half-widths of the box.
+    groundBox.SetAsBox(sizeX, sizeY);
+    
+    // Add the ground fixture to the ground body.
+    groundBody->CreateFixture(&groundBox, 0.0f);
+    
+    groundBodies.push_back(groundBody);
+
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -362,24 +387,9 @@ void updateBallDrawData()
         _floorTexture = [self setupTexture:@"tile_floor.png"];
         _fishTexture = [self setupTexture:@"item_powerup_fish.png"];
         
-        
-        // Define the ground body.
-        b2BodyDef groundBodyDef;
-        groundBodyDef.position.Set(0.0f, -10.0f);
-        
-        // Call the body factory which allocates memory for the ground body
-        // from a pool and creates the ground box shape (also from a pool).
-        // The body is also added to the world.
-        b2Body* groundBody = world.CreateBody(&groundBodyDef);
-        
-        // Define the ground box shape.
-        b2PolygonShape groundBox;
-        
-        // The extents are the half-widths of the box.
-        groundBox.SetAsBox(50.0f, 10.0f);
-        
-        // Add the ground fixture to the ground body.
-        groundBody->CreateFixture(&groundBox, 0.0f);
+        createWall(&world, 0.0f, BOTTOM_OF_SCREEN, 50.0f, 1.0f);
+        createWall(&world, -SCREEN_WIDTH/2.0f, 0.0f, 1.0f, 50.0f);
+        createWall(&world, SCREEN_WIDTH/2.0f, 0.0f, 1.0f, 50.0f);
         
     }
     return self;
