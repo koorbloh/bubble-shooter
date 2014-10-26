@@ -10,13 +10,6 @@
 #import "CC3GLMatrix.h"
 #include <vector>
 #include "Ball.h"
-#include "BallCollisionDetection.h"
-
-#include <Box2D/Box2D.h>
-
-// Construct a world object, which will hold and simulate the rigid bodies.
-b2World world(b2Vec2(0.0f, -10.0f));
-
 
 @implementation OpenGLView
 
@@ -141,119 +134,6 @@ b2World world(b2Vec2(0.0f, -10.0f));
     
 }
 
-
-#define MAX_BALLS 100
-std::vector<Ball*> balls;
-
-#define BOTTOM_OF_SCREEN -6.0f
-#define SCREEN_WIDTH 8.0f
-#define SECONDS_BETWEEN_BALLS 0.1f
-#define BALL_RADIUS 0.5f
-float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
-
-void emitBalls(float dt)
-{
-    if (balls.size() < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
-    {
-        secondsSinceEmit = 0.0f;
-        Ball* ball = new Ball(&world);
-        ball->allocBuffers();
-        ball->setupVBO();
-        ball->setRadius(BALL_RADIUS);
-        ball->setPosition(Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f));
-        balls.push_back(ball);
-    }
-    secondsSinceEmit += dt;
-}
-
-#define GRAVITY -4.9f
-#define BOUNCE_DAMPING 0.25f
-#define REALLY_HEAVY 2.0f
-#define BOTTOM_TOLERANCE 0.01f
-
-void updateBalls(float dt)
-{
-#if 0
-    for (int i = 0; i < balls.size(); i++)
-    {
-        Vector3 pos = balls[i]->getPosition();
-        //check for collision
-        for (int j = i + 1; j < balls.size(); j++)
-        {
-            float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
-            if (dist < balls[i]->getRadius() + balls[j]->getRadius())
-            {
-                float iMass = 1.0f;
-                float jMass = 1.0f;
-                Vector3 iVel = balls[i]->getVelocity();
-                Vector3 jVel = balls[j]->getVelocity();
-                collision2Ds(iMass, jMass, 1.0f,
-                             balls[i]->getPosition(), balls[j]->getPosition(),
-                             iVel, jVel);
-                /*if (fabs(pos.y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE)
-                {
-                    iMass = REALLY_HEAVY;
-                }
-                if (fabs(balls[j]->getPosition().y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE)
-                {
-                    jMass = REALLY_HEAVY;
-                }*/
-                
-                if ((fabs(pos.y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE) !=
-                    (fabs(balls[j]->getPosition().y() - BOTTOM_OF_SCREEN) < BOTTOM_TOLERANCE))
-                {
-                    collision2Ds(iMass, jMass, 1.0f,
-                                 balls[i]->getPosition(), balls[j]->getPosition(),
-                                 iVel, jVel);                    
-                }
-                
-                balls[i]->setVelocity(iVel);
-                balls[j]->setVelocity(jVel);
-            }
-        }
-
-        Vector3 vel = balls[i]->getVelocity();
-        
-        //gravity
-        vel.setY(vel.y() + GRAVITY*dt);
-        
-        //ok, clamp that bitch to the screen
-        if (pos.y() < BOTTOM_OF_SCREEN && vel.y() < 0.0f)
-        {
-            vel.setY(-vel.y() * BOUNCE_DAMPING);
-        }
-        //if we are outside the bounds, SEND IT BACK!.
-        if (pos.x() > SCREEN_WIDTH && vel.x() > 0.0f)
-        {
-            vel.setX(vel.x() * -BOUNCE_DAMPING);
-//            pos.setX(SCREEN_WIDTH);
-        }
-        else if (pos.x() < -SCREEN_WIDTH && vel.x() < 0.0f)
-        {
-            vel.setX(vel.x() * -BOUNCE_DAMPING);
-//            pos.setX(-SCREEN_WIDTH);
-        }
-        
-        //update position
-        pos.setX(pos.x() + vel.x()*dt);
-        pos.setY(pos.y() + vel.y()*dt);
-        pos.setZ(pos.z() + vel.z()*dt);
-        
-        balls[i]->setVelocity(vel);
-        balls[i]->setPosition(pos);
-    }
-#endif
-}
-
-void updateBallDrawData()
-{
-    for (int i = 0; i < balls.size(); i++)
-    {
-        balls[i]->onUpdated();
-    }
-}
-
-
 - (void)render:(CADisplayLink*)displayLink {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
@@ -275,21 +155,13 @@ void updateBallDrawData()
     // 1
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
-    emitBalls(displayLink.duration);
-    updateBalls(displayLink.duration);
+    game->update(displayLink.duration);
     
-    int32 velocityIterations = 6;
-    int32 positionIterations = 2;
-    
-    world.Step(displayLink.duration, velocityIterations, positionIterations);
-
-    
-    updateBallDrawData();
-    
-    for (int i = 0; i < balls.size(); i ++)
+    for (int i = 0; i < game->getBalls().size(); i ++)
     {
-        glBindBuffer(GL_ARRAY_BUFFER, balls[i]->getVertexBuffer());
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, balls[i]->getIndexBuffer());
+        Ball* ball = game->getBalls()[i];
+        glBindBuffer(GL_ARRAY_BUFFER, ball->getVertexBuffer());
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ball->getIndexBuffer());
         
         glActiveTexture(GL_TEXTURE0); // unneccc in practice
         glBindTexture(GL_TEXTURE_2D, _fishTexture);
@@ -301,7 +173,7 @@ void updateBallDrawData()
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
         glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
         
-        glDrawElements(GL_TRIANGLE_STRIP, sizeof(balls[i]->getIndexBuffer())/sizeof(GLubyte), GL_UNSIGNED_BYTE, 0);
+        glDrawElements(GL_TRIANGLE_STRIP, sizeof(ball->getIndexBuffer())/sizeof(GLubyte), GL_UNSIGNED_BYTE, 0);
     }
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];
@@ -348,31 +220,6 @@ void updateBallDrawData()
     
 }
 
-std::vector<b2Body*> groundBodies;
-void createWall(b2World* world, float posX, float posY, float sizeX, float sizeY)
-{
-    // Define the ground body.
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(posX, posY);
-    
-    // Call the body factory which allocates memory for the ground body
-    // from a pool and creates the ground box shape (also from a pool).
-    // The body is also added to the world.
-    b2Body* groundBody = world->CreateBody(&groundBodyDef);
-    
-    // Define the ground box shape.
-    b2PolygonShape groundBox;
-    
-    // The extents are the half-widths of the box.
-    groundBox.SetAsBox(sizeX, sizeY);
-    
-    // Add the ground fixture to the ground body.
-    groundBody->CreateFixture(&groundBox, 0.0f);
-    
-    groundBodies.push_back(groundBody);
-
-}
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -387,10 +234,7 @@ void createWall(b2World* world, float posX, float posY, float sizeX, float sizeY
         _floorTexture = [self setupTexture:@"tile_floor.png"];
         _fishTexture = [self setupTexture:@"item_powerup_fish.png"];
         
-        createWall(&world, 0.0f, BOTTOM_OF_SCREEN, 50.0f, 1.0f);
-        createWall(&world, -SCREEN_WIDTH/2.0f, 0.0f, 1.0f, 50.0f);
-        createWall(&world, SCREEN_WIDTH/2.0f, 0.0f, 1.0f, 50.0f);
-        
+        game = new Game();
     }
     return self;
 }
