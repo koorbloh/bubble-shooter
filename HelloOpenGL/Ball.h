@@ -16,29 +16,25 @@
 
 class Ball : public RenderableSprite {
 public:
-    Ball(b2World* world);
+    Ball(b2World* world, float radius);
     
     void draw();
     void onUpdated(){
-        b2Vec2 pos = body->GetPosition();
+        b2Vec2 pos = _body->GetPosition();
         setPosition(Vector3(pos.x, pos.y, 0.0f));
-        updatePosition(position);
+        updatePosition(_position, _radius);
         updateVBO();
     }
     
     void setVelocity(const Vector3 vel) {
-        velocity = vel;
-        body->SetLinearVelocity(b2Vec2(vel.x(), vel.y()));
+        _velocity = vel;
+        _body->SetLinearVelocity(b2Vec2(vel.x(), vel.y()));
         //@TODO: is this a thing I can remove after physics are physically able to do this?
-    }
-    void setRadius(float r) {
-        radius = r;
-        //@TODO: remove, add to factory method
     }
     
     void setPosition(const Vector3& pos) {
-        position = pos;
-        body->SetTransform(b2Vec2(pos.x(), pos.y()), 0.0f);
+        _position = pos;
+        _body->SetTransform(b2Vec2(pos.x(), pos.y()), 0.0f);
     }
     
 //    Vector3 getPosition() { return position; }
@@ -46,10 +42,10 @@ public:
 //    float getRadius() { return radius; }
     
 private:
-    Vector3 position;
-    Vector3 velocity;
-    float radius;
-    b2Body* body;
+    Vector3 _position;
+    Vector3 _velocity;
+    float _radius;
+    b2Body* _body;
 };
 
 #endif /* defined(__HelloOpenGL__Ball__) */

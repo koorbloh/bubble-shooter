@@ -32,8 +32,8 @@ public:
     void updateVBO();
     void cleanupVBO();
     
-    void updatePosition(float x, float y, float z);
-    void updatePosition(const Vector3& pos);
+    void updatePosition(float x, float y, float z, float radius);
+    void updatePosition(const Vector3& pos, float radius);
     
     GLuint getIndexBuffer();
     GLuint getVertexBuffer();    

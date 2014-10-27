@@ -11,10 +11,10 @@
 #include "Vector.h"
 
 static Vertex baseSpriteVertices[] = {
-    {{0.5, -0.5, 0.01}, {1, 1, 1, 1}, {1, 1}},
-    {{0.5, 0.5, 0.01}, {1, 1, 1, 1}, {1, 0}},
-    {{-0.5, 0.5, 0.01}, {1, 1, 1, 1}, {0, 0}},
-    {{-0.5, -0.5, 0.01}, {1, 1, 1, 1}, {0, 1}},
+    {{1.0f, -1.0f, 0.01}, {1, 1, 1, 1}, {1, 1}},
+    {{1.0f, 1.0f, 0.01}, {1, 1, 1, 1}, {1, 0}},
+    {{-1.0f, 1.0f, 0.01}, {1, 1, 1, 1}, {0, 0}},
+    {{-1.0f, -1.0f, 0.01}, {1, 1, 1, 1}, {0, 1}},
 };
 
 const GLubyte baseSpriteIndexBuffer[] = {
@@ -65,19 +65,19 @@ void RenderableSprite::cleanupVBO()
     _indices = NULL;
 }
 
-void RenderableSprite::updatePosition(float x, float y, float z)
+void RenderableSprite::updatePosition(float x, float y, float z, float radius)
 {
     Vertex* vert = (Vertex*)_data;
     for (int i = 0; i < 4; ++i) {
-        vert[i].Position[0] = x + baseSpriteVertices[i].Position[0];
-        vert[i].Position[1] = y + baseSpriteVertices[i].Position[1];
-        vert[i].Position[2] = z + baseSpriteVertices[i].Position[2];
+        vert[i].Position[0] = x + (radius*baseSpriteVertices[i].Position[0]);
+        vert[i].Position[1] = y + (radius*baseSpriteVertices[i].Position[1]);
+        vert[i].Position[2] = z + (radius*baseSpriteVertices[i].Position[2]);
     }
 }
 
-void RenderableSprite::updatePosition(const Vector3& pos)
+void RenderableSprite::updatePosition(const Vector3& pos, float radius)
 {
-    updatePosition(pos.x(), pos.y(), pos.z());
+    updatePosition(pos.x(), pos.y(), pos.z(), radius);
 }
 
 GLuint RenderableSprite::getIndexBuffer()

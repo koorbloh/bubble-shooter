@@ -73,10 +73,9 @@ void Game::emitBalls(float dt)
     if (balls.size() < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
     {
         secondsSinceEmit = 0.0f;
-        Ball* ball = new Ball(world);
+        Ball* ball = new Ball(world, BALL_RADIUS);
         ball->allocBuffers();
         ball->setupVBO();
-        ball->setRadius(BALL_RADIUS);
         ball->setPosition(Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f));
         balls.push_back(ball);
     }
