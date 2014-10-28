@@ -17,6 +17,7 @@
 class Ball : public RenderableSprite {
 public:
     Ball(b2World* world, float radius);
+    virtual ~Ball();
     
     void draw();
     void onUpdated(){
@@ -37,6 +38,9 @@ public:
         _body->SetTransform(b2Vec2(pos.x(), pos.y()), 0.0f);
     }
     
+    const Vector3& getPosition() { return _position; }
+    float getRadius() { return _radius; }
+    
 //    Vector3 getPosition() { return position; }
 //    Vector3 getVelocity() { return velocity; }
 //    float getRadius() { return radius; }
@@ -46,6 +50,8 @@ private:
     Vector3 _velocity;
     float _radius;
     b2Body* _body;
+    b2Fixture* _fixture;
+    b2World* _world;
 };
 
 #endif /* defined(__HelloOpenGL__Ball__) */

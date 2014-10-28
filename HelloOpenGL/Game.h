@@ -25,6 +25,7 @@ public:
     std::vector<Ball*>& getBalls() { return balls; }
 private:
     void emitBalls(float dt);
+    void updateProximity();
     void updateBallDrawData();
     
     std::vector<Ball*> balls;    

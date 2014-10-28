@@ -12,14 +12,16 @@
 #include "Ball.h"
 #include "CC3Math.h"
 
+#include <set>
+
 
 // Construct a world object, which will hold and simulate the rigid bodies.
 
-#define MAX_BALLS 100
+#define MAX_BALLS 30
 
 #define BOTTOM_OF_SCREEN -6.0f
 #define SCREEN_WIDTH 8.0f
-#define SECONDS_BETWEEN_BALLS 0.1f
+#define SECONDS_BETWEEN_BALLS 0.5f
 #define BALL_RADIUS 0.5f
 #define GRAVITY -4.9f
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
@@ -90,14 +92,67 @@ void Game::updateBallDrawData()
     }
 }
 
+#define PROXIMITY 0.1f
+#define PROXIMITY_COUNT 3
+void Game::updateProximity()
+{
+    std::set<Ball*> toRemove;
+    for (int i=0; i < balls.size(); i++)
+    {
+        std::vector<Ball*> closeEnough;
+        closeEnough.clear();
+        for (int j=0; j < balls.size(); j++)
+        {
+            //if (i == j) continue;
+            
+            float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
+            float minDist = PROXIMITY + balls[i]->getRadius() + balls[j]->getRadius();
+            if (dist < minDist)
+            {
+                closeEnough.push_back(balls[j]);
+            }
+        }
+        if (closeEnough.size() >= PROXIMITY_COUNT)
+        {
+            //kill'em
+            while (closeEnough.size())
+            {
+                toRemove.insert(closeEnough[0]);
+                closeEnough.erase(closeEnough.begin());
+            }
+        }
+    }
+
+    for (std::vector<Ball*>::iterator iter = balls.begin();
+         iter != balls.end(); )
+    {
+        if (toRemove.find(*iter) != toRemove.end())
+        {
+            Ball* ball = *iter;
+            iter = balls.erase(iter);
+            delete ball;
+        }
+        else
+        {
+            iter++;
+        }
+    }
+}
+
 void Game::update(float dt)
 {
+    //this won't happen in real lyphe
     emitBalls(dt);
     
+    //physics
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
-    
     world->Step(dt, velocityIterations, positionIterations);
+
+    //do we need to blow some up?
+    updateProximity();
+    
+    //rendering data
     updateBallDrawData();
 
 }

@@ -10,6 +10,7 @@
 
 Ball::Ball(b2World* world, float radius)
 {
+    _world = world;
     // Define the dynamic body. We set its position and call the body factory.
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -31,10 +32,19 @@ Ball::Ball(b2World* world, float radius)
     // Override the default friction.
     fixtureDef.friction = 0.3f;
     
-    fixtureDef.restitution = 0.8f;
+    fixtureDef.restitution = 0.5f;
     
     // Add the shape to the body.
-    _body->CreateFixture(&fixtureDef);
+    _fixture = _body->CreateFixture(&fixtureDef);
     
+}
+
+Ball::~Ball()
+{
+    _body->DestroyFixture(_fixture);
+    _world->DestroyBody(_body);
+    _fixture = NULL;
+    _body = NULL;
+    _world = NULL;
 }
 

@@ -26,7 +26,7 @@ public:
     RenderableSprite():
     _data(NULL) {}
     
-    ~RenderableSprite();
+    virtual ~RenderableSprite();
     
     void setupVBO();
     void updateVBO();
