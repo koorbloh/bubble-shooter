@@ -12,6 +12,7 @@
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 #include <stddef.h>
+#include <string>
 
 typedef struct {
     float Position[3];
@@ -20,6 +21,7 @@ typedef struct {
 } Vertex;
 
 class Vector3;
+class TextureLoader;
 
 class RenderableSprite {
 public:
@@ -32,6 +34,9 @@ public:
     void updateVBO();
     void cleanupVBO();
     
+    void loadTexture(const std::string& textureName, TextureLoader* textureLoader);
+    GLuint getTextureHandle() { return _textureHandle; }
+    
     void updatePosition(float x, float y, float z, float radius);
     void updatePosition(const Vector3& pos, float radius);
     
@@ -43,7 +48,8 @@ private:
     unsigned char *_data = 0;
     unsigned char *_indices = 0;
     GLuint _vertexBuffer;
-    GLuint _indexBuffer;    
+    GLuint _indexBuffer;
+    GLuint _textureHandle;
 };
 
 #endif /* defined(__HelloOpenGL__Renderable__) */

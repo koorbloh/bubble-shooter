@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <vector>
 #include <Box2D/Box2D.h>
+#include "TextureLoader.h"
 
 class Ball;
 
@@ -31,6 +32,7 @@ private:
     std::vector<Ball*> balls;    
     std::vector<b2Body*> groundBodies;
     b2World* world;
+    TextureLoader* textureLoader;
 };
 
 #endif /* defined(__HelloOpenGL__Game__) */

@@ -16,7 +16,7 @@
 
 class Ball : public RenderableSprite {
 public:
-    Ball(b2World* world, float radius);
+    Ball(b2World* world, float radius, const std::string& textureName, TextureLoader* textureLoader);
     virtual ~Ball();
     
     void draw();

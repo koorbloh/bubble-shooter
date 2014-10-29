@@ -164,7 +164,7 @@
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ball->getIndexBuffer());
         
         glActiveTexture(GL_TEXTURE0); // unneccc in practice
-        glBindTexture(GL_TEXTURE_2D, _fishTexture);
+        glBindTexture(GL_TEXTURE_2D, ball->getTextureHandle());
         glUniform1i(_textureUniform, 0); // unnecc in practice
         
         glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);

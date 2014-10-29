@@ -52,6 +52,8 @@ static b2Body* createWall(b2World* world, float posX, float posY, float sizeX, f
 
 Game::Game()
 {
+    textureLoader = new TextureLoader();
+    
     world = new b2World(b2Vec2(0.0f, GRAVITY));
 
     groundBodies.push_back(createWall(world, 0.0f, BOTTOM_OF_SCREEN, 50.0f, 1.0f));
@@ -68,6 +70,8 @@ Game::~Game()
     }
     delete world;
     world = NULL;
+
+    delete textureLoader;
 }
 
 void Game::emitBalls(float dt)
@@ -75,7 +79,7 @@ void Game::emitBalls(float dt)
     if (balls.size() < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
     {
         secondsSinceEmit = 0.0f;
-        Ball* ball = new Ball(world, BALL_RADIUS);
+        Ball* ball = new Ball(world, BALL_RADIUS, std::string("item_powerup_fish.png"),textureLoader);
         ball->allocBuffers();
         ball->setupVBO();
         ball->setPosition(Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f));

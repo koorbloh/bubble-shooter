@@ -9,6 +9,7 @@
 #include <cstring>
 #include "RenderableSprite.h"
 #include "Vector.h"
+#include "TextureLoader.h"
 
 static Vertex baseSpriteVertices[] = {
     {{1.0f, -1.0f, 0.01}, {1, 1, 1, 1}, {1, 1}},
@@ -90,3 +91,7 @@ GLuint RenderableSprite::getVertexBuffer()
     return _vertexBuffer;
 }
 
+void RenderableSprite::loadTexture(const std::string& textureName, TextureLoader* textureLoader)
+{
+    _textureHandle = textureLoader->loadTexture(textureName);
+}
