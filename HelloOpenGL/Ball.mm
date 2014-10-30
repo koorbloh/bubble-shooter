@@ -8,7 +8,22 @@
 
 #include "Ball.h"
 
-Ball::Ball(b2World* world, float radius, const std::string& textureName, TextureLoader* textureLoader)
+/*static*/
+Ball* Ball::ballFactory(b2World* world, const Vector3& position, float radius, const std::string& type,
+                         TextureLoader* textureLoader, const std::string& textureName)
+{
+    Ball* ball = new Ball(world, radius);
+    ball->allocBuffers();
+    ball->setupVBO();
+    ball->setPosition(position);
+    ball->loadTexture(textureName, textureLoader);
+    ball->setType(textureName);
+    
+    return ball;
+}
+
+
+Ball::Ball(b2World* world, float radius)
 {
     _world = world;
     // Define the dynamic body. We set its position and call the body factory.
@@ -36,9 +51,6 @@ Ball::Ball(b2World* world, float radius, const std::string& textureName, Texture
     
     // Add the shape to the body.
     _fixture = _body->CreateFixture(&fixtureDef);
-    
-    loadTexture(textureName, textureLoader);
-    setType(textureName);
     
 }
 

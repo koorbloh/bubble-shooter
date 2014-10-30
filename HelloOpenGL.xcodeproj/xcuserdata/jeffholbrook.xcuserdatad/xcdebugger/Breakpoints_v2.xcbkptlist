@@ -26,11 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HelloOpenGL/Game.mm"
-            timestampString = "436286303.351895"
+            timestampString = "436374286.350206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118">
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "Game::updateProximity()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -40,11 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HelloOpenGL/Game.mm"
-            timestampString = "436286303.351895"
+            timestampString = "436374286.350206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120">
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "Game::updateProximity()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -54,11 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HelloOpenGL/Game.mm"
-            timestampString = "436286303.351895"
+            timestampString = "436374286.350206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137">
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "Game::updateProximity()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -68,11 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HelloOpenGL/Game.mm"
-            timestampString = "436286303.351895"
+            timestampString = "436374286.350206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153">
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "Game::update(float dt)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -82,11 +90,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HelloOpenGL/Game.mm"
-            timestampString = "436286303.351895"
+            timestampString = "436374286.350206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139">
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "Game::updateProximity()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

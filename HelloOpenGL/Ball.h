@@ -16,7 +16,10 @@
 
 class Ball : public RenderableSprite {
 public:
-    Ball(b2World* world, float radius, const std::string& textureName, TextureLoader* textureLoader);
+    static Ball* ballFactory(b2World* world, const Vector3& position, float radius, const std::string& type,
+                             TextureLoader* textureLoader, const std::string& textureName);
+    
+    Ball(b2World* world, float radius);
     virtual ~Ball();
     
     void draw();
