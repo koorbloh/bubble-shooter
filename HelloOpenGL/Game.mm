@@ -84,8 +84,8 @@ void Game::emitBalls(float dt)
         secondsSinceEmit = 0.0f;
         std::string texture = textureNames[RandomUIntBelow(NUM_TEXTURES)];
         std::string type = texture; //one and the same for now, I guess?
-        Ball* ball = Ball::ballFactory(world, Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f)
-                                       , BALL_RADIUS, type, textureLoader, texture);
+        Vector3 pos = Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f);
+        Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture);
         balls.push_back(ball);
     }
     secondsSinceEmit += dt;
@@ -137,7 +137,7 @@ void Game::updateProximity()
         {
             Ball* ball = *iter;
             iter = balls.erase(iter);
-            delete ball;
+            Ball::ballDisposal(ball);
         }
         else
         {

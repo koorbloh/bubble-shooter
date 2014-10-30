@@ -19,6 +19,8 @@ public:
     static Ball* ballFactory(b2World* world, const Vector3& position, float radius, const std::string& type,
                              TextureLoader* textureLoader, const std::string& textureName);
     
+    static void ballDisposal(Ball* &ball);
+    
     Ball(b2World* world, float radius);
     virtual ~Ball();
     

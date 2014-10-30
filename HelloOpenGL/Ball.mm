@@ -22,6 +22,14 @@ Ball* Ball::ballFactory(b2World* world, const Vector3& position, float radius, c
     return ball;
 }
 
+/*static*/
+void Ball::ballDisposal(Ball* &ball)
+{
+    delete ball;
+    ball = NULL;
+}
+
+
 
 Ball::Ball(b2World* world, float radius)
 {
