@@ -41,6 +41,9 @@ public:
     const Vector3& getPosition() { return _position; }
     float getRadius() { return _radius; }
     
+    const std::string& getType() { return _type; }
+    void setType(const std::string newType) { _type = newType; }
+    
 //    Vector3 getPosition() { return position; }
 //    Vector3 getVelocity() { return velocity; }
 //    float getRadius() { return radius; }
@@ -52,6 +55,7 @@ private:
     b2Body* _body;
     b2Fixture* _fixture;
     b2World* _world;
+    std::string _type = "unset";
 };
 
 #endif /* defined(__HelloOpenGL__Ball__) */

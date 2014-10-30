@@ -38,6 +38,7 @@ Ball::Ball(b2World* world, float radius, const std::string& textureName, Texture
     _fixture = _body->CreateFixture(&fixtureDef);
     
     loadTexture(textureName, textureLoader);
+    setType(textureName);
     
 }
 

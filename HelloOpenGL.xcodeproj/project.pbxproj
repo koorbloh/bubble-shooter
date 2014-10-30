@@ -27,6 +27,19 @@
 		35DF647D138C7A0900FF9459 /* CC3Math.mm in Sources */ = {isa = PBXBuildFile; fileRef = 35DF6479138C7A0900FF9459 /* CC3Math.mm */; };
 		35DF647F138C869600FF9459 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DF647E138C869600FF9459 /* Icon.png */; };
 		5491E66D1A00925300857682 /* TextureLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5491E66B1A00925300857682 /* TextureLoader.mm */; };
+		5491E6831A01321300857682 /* gold_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6701A01321300857682 /* gold_icon.png */; };
+		5491E6861A01321300857682 /* icon_dps.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6731A01321300857682 /* icon_dps.png */; };
+		5491E6871A01321300857682 /* icon_energy.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6741A01321300857682 /* icon_energy.png */; };
+		5491E6881A01321300857682 /* icon_hp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6751A01321300857682 /* icon_hp.png */; };
+		5491E68A1A01321300857682 /* icon_white_flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6771A01321300857682 /* icon_white_flag.png */; };
+		5491E68B1A01321300857682 /* iron_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6781A01321300857682 /* iron_icon.png */; };
+		5491E68C1A01321300857682 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6791A01321300857682 /* lock.png */; };
+		5491E68E1A01321300857682 /* oil_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E67B1A01321300857682 /* oil_icon.png */; };
+		5491E68F1A01321300857682 /* pyrocite_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E67C1A01321300857682 /* pyrocite_icon.png */; };
+		5491E6901A01321300857682 /* research_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E67D1A01321300857682 /* research_icon.png */; };
+		5491E6911A01321300857682 /* steel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E67E1A01321300857682 /* steel_icon.png */; };
+		5491E6921A01321300857682 /* stone_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E67F1A01321300857682 /* stone_icon.png */; };
+		5491E6931A01321300857682 /* wood_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6801A01321300857682 /* wood_icon.png */; };
 		54A1F2E719F3638200176350 /* Vector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54A1F2E519F3638200176350 /* Vector.mm */; };
 		54CB8BEB19F0C2FA00D3A6B1 /* RenderableSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.mm */; };
 		54CB8BEE19F0C31B00D3A6B1 /* Ball.mm in Sources */ = {isa = PBXBuildFile; fileRef = 54CB8BEC19F0C31B00D3A6B1 /* Ball.mm */; };
@@ -115,6 +128,19 @@
 		35DF647E138C869600FF9459 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		5491E66B1A00925300857682 /* TextureLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TextureLoader.mm; sourceTree = "<group>"; };
 		5491E66C1A00925300857682 /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureLoader.h; sourceTree = "<group>"; };
+		5491E6701A01321300857682 /* gold_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gold_icon.png; path = Art/gold_icon.png; sourceTree = "<group>"; };
+		5491E6731A01321300857682 /* icon_dps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_dps.png; sourceTree = "<group>"; };
+		5491E6741A01321300857682 /* icon_energy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_energy.png; sourceTree = "<group>"; };
+		5491E6751A01321300857682 /* icon_hp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_hp.png; sourceTree = "<group>"; };
+		5491E6771A01321300857682 /* icon_white_flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_white_flag.png; sourceTree = "<group>"; };
+		5491E6781A01321300857682 /* iron_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iron_icon.png; sourceTree = "<group>"; };
+		5491E6791A01321300857682 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		5491E67B1A01321300857682 /* oil_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = oil_icon.png; path = Art/oil_icon.png; sourceTree = "<group>"; };
+		5491E67C1A01321300857682 /* pyrocite_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pyrocite_icon.png; path = Art/pyrocite_icon.png; sourceTree = "<group>"; };
+		5491E67D1A01321300857682 /* research_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = research_icon.png; sourceTree = "<group>"; };
+		5491E67E1A01321300857682 /* steel_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = steel_icon.png; sourceTree = "<group>"; };
+		5491E67F1A01321300857682 /* stone_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stone_icon.png; path = Art/stone_icon.png; sourceTree = "<group>"; };
+		5491E6801A01321300857682 /* wood_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wood_icon.png; path = Art/wood_icon.png; sourceTree = "<group>"; };
 		54A1F2E519F3638200176350 /* Vector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Vector.mm; sourceTree = "<group>"; };
 		54A1F2E619F3638200176350 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		54CB8BE919F0C2FA00D3A6B1 /* RenderableSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderableSprite.mm; sourceTree = "<group>"; };
@@ -240,6 +266,14 @@
 		352DD49B13D376AD005BA4CC /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				5491E6731A01321300857682 /* icon_dps.png */,
+				5491E6741A01321300857682 /* icon_energy.png */,
+				5491E6751A01321300857682 /* icon_hp.png */,
+				5491E6771A01321300857682 /* icon_white_flag.png */,
+				5491E6781A01321300857682 /* iron_icon.png */,
+				5491E6791A01321300857682 /* lock.png */,
+				5491E67D1A01321300857682 /* research_icon.png */,
+				5491E67E1A01321300857682 /* steel_icon.png */,
 				352DD49C13D376AD005BA4CC /* item_powerup_fish.png */,
 				352DD49D13D376AD005BA4CC /* tile_floor.png */,
 			);
@@ -279,6 +313,7 @@
 		35DF6446138C40D500FF9459 /* HelloOpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				54EC48431A01E06100345411 /* Use These */,
 				352DD49B13D376AD005BA4CC /* Art */,
 				35DF646F138C79F900FF9459 /* Math */,
 				35DF6461138C44F300FF9459 /* SimpleVertex.glsl */,
@@ -330,6 +365,18 @@
 				35DF6479138C7A0900FF9459 /* CC3Math.mm */,
 			);
 			name = Math;
+			sourceTree = "<group>";
+		};
+		54EC48431A01E06100345411 /* Use These */ = {
+			isa = PBXGroup;
+			children = (
+				5491E67C1A01321300857682 /* pyrocite_icon.png */,
+				5491E6801A01321300857682 /* wood_icon.png */,
+				5491E6701A01321300857682 /* gold_icon.png */,
+				5491E67B1A01321300857682 /* oil_icon.png */,
+				5491E67F1A01321300857682 /* stone_icon.png */,
+			);
+			name = "Use These";
 			sourceTree = "<group>";
 		};
 		54F2A39719FC46690087C1B0 /* Box2D */ = {
@@ -541,16 +588,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5491E68A1A01321300857682 /* icon_white_flag.png in Resources */,
+				5491E6871A01321300857682 /* icon_energy.png in Resources */,
 				35DF644B138C40D500FF9459 /* InfoPlist.strings in Resources */,
+				5491E6831A01321300857682 /* gold_icon.png in Resources */,
 				35DF6454138C40D500FF9459 /* MainWindow.xib in Resources */,
+				5491E68B1A01321300857682 /* iron_icon.png in Resources */,
+				5491E6881A01321300857682 /* icon_hp.png in Resources */,
+				5491E6911A01321300857682 /* steel_icon.png in Resources */,
+				5491E68F1A01321300857682 /* pyrocite_icon.png in Resources */,
 				35DF6463138C44F400FF9459 /* SimpleVertex.glsl in Resources */,
+				5491E68E1A01321300857682 /* oil_icon.png in Resources */,
+				5491E6931A01321300857682 /* wood_icon.png in Resources */,
 				35DF6464138C44F400FF9459 /* SimpleFragment.glsl in Resources */,
 				35DF647F138C869600FF9459 /* Icon.png in Resources */,
 				54F2A3FF19FC46690087C1B0 /* Box2DConfig.cmake.in in Resources */,
+				5491E68C1A01321300857682 /* lock.png in Resources */,
 				352DD49E13D376AD005BA4CC /* item_powerup_fish.png in Resources */,
 				352DD49F13D376AD005BA4CC /* tile_floor.png in Resources */,
 				54F2A40019FC46690087C1B0 /* CMakeLists.txt in Resources */,
+				5491E6861A01321300857682 /* icon_dps.png in Resources */,
 				54F2A42F19FC46690087C1B0 /* UseBox2D.cmake in Resources */,
+				5491E6921A01321300857682 /* stone_icon.png in Resources */,
+				5491E6901A01321300857682 /* research_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

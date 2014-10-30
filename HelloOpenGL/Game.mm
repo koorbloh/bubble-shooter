@@ -74,12 +74,16 @@ Game::~Game()
     delete textureLoader;
 }
 
+#define NUM_TEXTURES 4
+std::string textureNames[] = { "stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
+
 void Game::emitBalls(float dt)
 {
     if (balls.size() < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
     {
         secondsSinceEmit = 0.0f;
-        Ball* ball = new Ball(world, BALL_RADIUS, std::string("item_powerup_fish.png"),textureLoader);
+        std::string texture = textureNames[RandomUIntBelow(NUM_TEXTURES)];
+        Ball* ball = new Ball(world, BALL_RADIUS, texture, textureLoader);
         ball->allocBuffers();
         ball->setupVBO();
         ball->setPosition(Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f));
@@ -111,7 +115,7 @@ void Game::updateProximity()
             
             float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
             float minDist = PROXIMITY + balls[i]->getRadius() + balls[j]->getRadius();
-            if (dist < minDist)
+            if (dist < minDist && balls[i]->getType() == balls[j]->getType())
             {
                 closeEnough.push_back(balls[j]);
             }
