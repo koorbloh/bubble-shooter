@@ -74,7 +74,7 @@ Game::~Game()
     delete textureLoader;
 }
 
-#define NUM_TEXTURES 4
+#define NUM_TEXTURES 2
 std::string textureNames[] = { "stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
 
 void Game::emitBalls(float dt)
@@ -138,6 +138,7 @@ void Game::updateProximity()
             Ball* ball = *iter;
             iter = balls.erase(iter);
             Ball::ballDisposal(ball);
+            iter++;
         }
         else
         {

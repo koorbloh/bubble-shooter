@@ -42,16 +42,17 @@ public:
         _position = pos;
         _body->SetTransform(b2Vec2(pos.x(), pos.y()), 0.0f);
     }
-    
     const Vector3& getPosition() { return _position; }
+    
     float getRadius() { return _radius; }
+    void setRadius(float newRadius) {
+        _radius = newRadius;
+        _fixture->GetShape()->m_radius = newRadius;
+    }
     
     const std::string& getType() { return _type; }
     void setType(const std::string newType) { _type = newType; }
     
-//    Vector3 getPosition() { return position; }
-//    Vector3 getVelocity() { return velocity; }
-//    float getRadius() { return radius; }
     
 private:
     Vector3 _position;
