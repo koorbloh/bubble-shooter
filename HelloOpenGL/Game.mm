@@ -77,26 +77,21 @@ Game::~Game()
 #define NUM_TEXTURES 3
 std::string textureNames[] = { "stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
 
-void Game::emitBalls(float dt)
+void Game::emitABall(const Vector3& direction)
 {
-    if (balls.size() < MAX_BALLS && secondsSinceEmit >= SECONDS_BETWEEN_BALLS)
-    {
-        secondsSinceEmit = 0.0f;
-        std::string texture = textureNames[RandomUIntBelow(NUM_TEXTURES)];
-        std::string type = texture; //one and the same for now, I guess?
-        Vector3 pos = Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f);
-        Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture);
-        ball->setVelocity(Vector3(13*float(rand())/float(RAND_MAX), float(rand())/float(RAND_MAX), 0.0f));
-        balls.push_back(ball);
-    }
-    secondsSinceEmit += dt;
+    std::string texture = textureNames[RandomUIntBelow(NUM_TEXTURES)];
+    std::string type = texture; //one and the same for now, I guess?
+    Vector3 pos = Vector3(0.0f, 4.0f, 0.0f);
+    Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture);
+    ball->setVelocity(direction);
+    _balls.push_back(ball);
 }
 
 void Game::updateBallDrawData()
 {
-    for (int i = 0; i < balls.size(); i++)
+    for (int i = 0; i < _balls.size(); i++)
     {
-        balls[i]->onUpdated();
+        _balls[i]->onUpdated();
     }
 }
 
@@ -105,19 +100,19 @@ void Game::updateBallDrawData()
 void Game::updateProximity()
 {
     std::set<Ball*> toRemove;
-    for (int i=0; i < balls.size(); i++)
+    for (int i=0; i < _balls.size(); i++)
     {
         std::vector<Ball*> closeEnough;
         closeEnough.clear();
-        for (int j=0; j < balls.size(); j++)
+        for (int j=0; j < _balls.size(); j++)
         {
             //if (i == j) continue;
             
-            float dist = distance(balls[i]->getPosition(), balls[j]->getPosition());
-            float minDist = PROXIMITY + balls[i]->getRadius() + balls[j]->getRadius();
-            if (dist < minDist && balls[i]->getType() == balls[j]->getType())
+            float dist = distance(_balls[i]->getPosition(), _balls[j]->getPosition());
+            float minDist = PROXIMITY + _balls[i]->getRadius() + _balls[j]->getRadius();
+            if (dist < minDist && _balls[i]->getType() == _balls[j]->getType())
             {
-                closeEnough.push_back(balls[j]);
+                closeEnough.push_back(_balls[j]);
             }
         }
         if (closeEnough.size() >= PROXIMITY_COUNT)
@@ -131,13 +126,13 @@ void Game::updateProximity()
         }
     }
 
-    for (std::vector<Ball*>::iterator iter = balls.begin();
-         iter != balls.end(); )
+    for (std::vector<Ball*>::iterator iter = _balls.begin();
+         iter != _balls.end(); )
     {
         if (toRemove.find(*iter) != toRemove.end())
         {
             Ball* ball = *iter;
-            iter = balls.erase(iter);
+            iter = _balls.erase(iter);
             Ball::ballDisposal(ball);
         }
         else
@@ -150,17 +145,44 @@ void Game::updateProximity()
 void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
 {
 //    NSLog(@"HANDLING TOUCHES");
-//    for (Touch touch : touches)
-//    {
+    for (Touch touch : touches)
+    {
 //        NSLog(@"touch: %3.3f %3.3f : %3.3f %3.3f", touch.curr.x(),touch.curr.y(),touch.prev.x(),touch.prev.y());
-//    }
+        
+        switch (type) {
+            case InputEventType::Began:
+                NSLog(@"start");
+                if (_trackedTouch == nullptr)
+                {
+                    NSLog(@"tracked");
+                    _trackedTouch = touch.identifier;
+                    _trackedTouchStart = touch.curr;
+                }
+                break;
+            case InputEventType::Moved:
+                break;
+            case InputEventType::Ended:
+            {
+                NSLog(@"Ended");
+                Vector3 impulse = _trackedTouchStart - touch.curr;
+                if (impulse.lengthSq() >= 0.1f) {
+                    NSLog(@"Shot");
+                    impulse.setY(impulse.y() * -1.0f);
+                    emitABall(impulse * 10.0f);
+                }
+            }
+                //intentionall fallthrough
+            case InputEventType::Cancelled: //intentionall fallthrough
+                NSLog(@"untracked");
+                _trackedTouch = nullptr;
+            default:
+                break;
+        }
+    }
 }
 
 void Game::update(float dt)
 {
-    //this won't happen in real lyphe
-    emitBalls(dt);
-    
     //physics
     int32 velocityIterations = 6;
     int32 positionIterations = 2;

@@ -39,13 +39,15 @@ public:
     void handleInput(InputEventType type, const std::vector<Touch>& touches);
     ~Game();
     
-    std::vector<Ball*>& getBalls() { return balls; }
+    std::vector<Ball*>& getBalls() { return _balls; }
 private:
-    void emitBalls(float dt);
+    void emitABall(const Vector3& direction);
     void updateProximity();
     void updateBallDrawData();
     
-    std::vector<Ball*> balls;    
+    std::vector<Ball*> _balls;
+    void* _trackedTouch = nullptr;
+    Vector3 _trackedTouchStart;
     std::vector<b2Body*> groundBodies;
     b2World* world;
     TextureLoader* textureLoader;

@@ -53,4 +53,14 @@ inline Vector3 operator-(const Vector3& a, const Vector3& b)
     return Vector3(a.x() - b.x(), a.y() - b.y(), a.z() - b.z());
 }
 
+inline Vector3 operator*(float scalar, const Vector3& vec)
+{
+    return Vector3(vec.x()*scalar,vec.y()*scalar,vec.z()*scalar);
+}
+
+inline Vector3 operator*(const Vector3& vec, float scalar)
+{
+    return scalar*vec;
+}
+
 #endif /* defined(__HelloOpenGL__Vector__) */
