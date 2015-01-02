@@ -10,6 +10,7 @@
 #import "CC3GLMatrix.h"
 #include <vector>
 #include "Ball.h"
+#include "Game.h"
 
 @implementation OpenGLView
 
@@ -244,6 +245,60 @@
     [_context release];
     _context = nil;
     [super dealloc];
+}
+
+static void convertTouches(NSSet* sourceTouches, UIView * view, std::vector<Touch>& touches)
+{
+    for (UITouch* sourceTouch : sourceTouches)
+    {
+        Touch touch;
+        CGRect viewSize = sourceTouch.view.frame;
+        float height = viewSize.size.height;
+        float width = viewSize.size.width;
+        CGPoint prev = [sourceTouch previousLocationInView:view];
+        touch.prev = Vector3(prev.x/width,prev.y/height,0.0f);
+        CGPoint curr = [sourceTouch locationInView:view];
+        touch.curr = Vector3(curr.x/width,curr.y/height,0.0f);
+        touch.identifier = (void*)sourceTouch;
+        touches.push_back(touch);
+    }
+}
+
+
+-(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    if (game != NULL) {
+        std::vector<Touch> convertedTouches;
+        convertTouches(touches, self, convertedTouches);
+        game->handleInput(InputEventType::Began, convertedTouches);
+    }
+}
+
+-(void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    if (game != NULL) {
+        std::vector<Touch> convertedTouches;
+        convertTouches(touches, self, convertedTouches);
+        game->handleInput(InputEventType::Moved, convertedTouches);
+    }
+}
+
+-(void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    if (game != NULL) {
+        std::vector<Touch> convertedTouches;
+        convertTouches(touches, self, convertedTouches);
+        game->handleInput(InputEventType::Ended, convertedTouches);
+    }
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (game != NULL) {
+        std::vector<Touch> convertedTouches;
+        convertTouches(touches, self, convertedTouches);
+        game->handleInput(InputEventType::Cancelled, convertedTouches);
+    }
 }
 
 @end

@@ -13,14 +13,30 @@
 #include <vector>
 #include <Box2D/Box2D.h>
 #include "TextureLoader.h"
+#include "Vector.h"
 
 class Ball;
+
+enum InputEventType {
+    Began,
+    Moved,
+    Ended,
+    Cancelled
+};
+
+struct Touch {
+    void *identifier;
+    Vector3 prev;
+    Vector3 curr;
+    
+};
 
 class Game
 {
 public:
     Game();
     void update(float dt);
+    void handleInput(InputEventType type, const std::vector<Touch>& touches);
     ~Game();
     
     std::vector<Ball*>& getBalls() { return balls; }

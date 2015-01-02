@@ -86,6 +86,7 @@ void Game::emitBalls(float dt)
         std::string type = texture; //one and the same for now, I guess?
         Vector3 pos = Vector3(RandomDoubleBetween(0.0f, SCREEN_WIDTH)-(SCREEN_WIDTH/2.0f), 5.0f, 0.0f);
         Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture);
+        ball->setVelocity(Vector3(13*float(rand())/float(RAND_MAX), float(rand())/float(RAND_MAX), 0.0f));
         balls.push_back(ball);
     }
     secondsSinceEmit += dt;
@@ -144,6 +145,15 @@ void Game::updateProximity()
             iter++;
         }
     }
+}
+
+void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
+{
+//    NSLog(@"HANDLING TOUCHES");
+//    for (Touch touch : touches)
+//    {
+//        NSLog(@"touch: %3.3f %3.3f : %3.3f %3.3f", touch.curr.x(),touch.curr.y(),touch.prev.x(),touch.prev.y());
+//    }
 }
 
 void Game::update(float dt)
