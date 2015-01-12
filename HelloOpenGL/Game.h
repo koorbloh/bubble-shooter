@@ -16,6 +16,7 @@
 #include "Vector.h"
 
 class Ball;
+class Wall;
 
 enum InputEventType {
     Began,
@@ -40,6 +41,7 @@ public:
     ~Game();
     
     std::vector<Ball*>& getBalls() { return _balls; }
+    std::vector<Wall*>& getGroundBodies() { return _groundBodies; }
 private:
     void emitABall(const Vector3& direction);
     void updateProximity();
@@ -48,7 +50,7 @@ private:
     std::vector<Ball*> _balls;
     void* _trackedTouch = nullptr;
     Vector3 _trackedTouchStart;
-    std::vector<b2Body*> groundBodies;
+    std::vector<Wall*> _groundBodies;
     b2World* world;
     TextureLoader* textureLoader;
 };

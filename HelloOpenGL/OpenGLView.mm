@@ -10,6 +10,7 @@
 #import "CC3GLMatrix.h"
 #include <vector>
 #include "Ball.h"
+#include "Wall.h"
 #include "Game.h"
 
 @implementation OpenGLView
@@ -135,6 +136,25 @@
     
 }
 
+- (void)drawRenderableSprite:(RenderableSprite*)sprite
+               withModelView:(CC3GLMatrix*)modelView
+{
+    glBindBuffer(GL_ARRAY_BUFFER, sprite->getVertexBuffer());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprite->getIndexBuffer());
+    
+    glActiveTexture(GL_TEXTURE0); // unneccc in practice
+    glBindTexture(GL_TEXTURE_2D, sprite->getTextureHandle());
+    glUniform1i(_textureUniform, 0); // unnecc in practice
+    
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
+    
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+    
+    glDrawElements(GL_TRIANGLE_STRIP, sizeof(sprite->getIndexBuffer())/sizeof(GLubyte), GL_UNSIGNED_BYTE, 0);
+}
+
 - (void)render:(CADisplayLink*)displayLink {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
@@ -154,27 +174,20 @@
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
     
     // 1
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    glViewport(self.frame.size.width/4, self.frame.size.height/4, self.frame.size.width/2, self.frame.size.height/2);
     
     game->update(displayLink.duration);
+    
+    for (int i = 0; i < game->getGroundBodies().size(); i ++)
+    {
+        Wall* wall = game->getGroundBodies()[i];
+        [self drawRenderableSprite:wall withModelView:modelView];
+    }
     
     for (int i = 0; i < game->getBalls().size(); i ++)
     {
         Ball* ball = game->getBalls()[i];
-        glBindBuffer(GL_ARRAY_BUFFER, ball->getVertexBuffer());
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ball->getIndexBuffer());
-        
-        glActiveTexture(GL_TEXTURE0); // unneccc in practice
-        glBindTexture(GL_TEXTURE_2D, ball->getTextureHandle());
-        glUniform1i(_textureUniform, 0); // unnecc in practice
-        
-        glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
-        
-        glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
-        glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
-        
-        glDrawElements(GL_TRIANGLE_STRIP, sizeof(ball->getIndexBuffer())/sizeof(GLubyte), GL_UNSIGNED_BYTE, 0);
+        [self drawRenderableSprite:ball withModelView:modelView];
     }
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];

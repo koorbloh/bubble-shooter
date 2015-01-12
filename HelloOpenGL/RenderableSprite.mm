@@ -76,6 +76,18 @@ void RenderableSprite::updatePosition(float x, float y, float z, float radius)
     }
 }
 
+void RenderableSprite::updatePosition(const Vector3& pos, const Vector3& size)
+{
+    Vertex* vert = (Vertex*)_data;
+    Vector3 halfSize = 0.5f * size;
+
+    for (int i = 0; i < 4; ++i) {
+        vert[i].Position[0] = pos.x() + (halfSize.x()*baseSpriteVertices[i].Position[0]);
+        vert[i].Position[1] = pos.y() + (halfSize.y()*baseSpriteVertices[i].Position[1]);
+        vert[i].Position[2] = pos.z() + (halfSize.z()*baseSpriteVertices[i].Position[2]);
+    }
+}
+
 void RenderableSprite::updatePosition(const Vector3& pos, float radius)
 {
     updatePosition(pos.x(), pos.y(), pos.z(), radius);

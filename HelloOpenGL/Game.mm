@@ -10,6 +10,7 @@
 
 
 #include "Ball.h"
+#include "Wall.h"
 #include "CC3Math.h"
 
 #include <set>
@@ -26,47 +27,38 @@
 #define GRAVITY -4.9f
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
-
-static b2Body* createWall(b2World* world, float posX, float posY, float sizeX, float sizeY)
-{
-    // Define the ground body.
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(posX, posY);
-    
-    // Call the body factory which allocates memory for the ground body
-    // from a pool and creates the ground box shape (also from a pool).
-    // The body is also added to the world.
-    b2Body* groundBody = world->CreateBody(&groundBodyDef);
-    
-    // Define the ground box shape.
-    b2PolygonShape groundBox;
-    
-    // The extents are the half-widths of the box.
-    groundBox.SetAsBox(sizeX, sizeY);
-    
-    // Add the ground fixture to the ground body.
-    groundBody->CreateFixture(&groundBox, 0.0f);
-    
-    return groundBody;
-}
-
 Game::Game()
 {
     textureLoader = new TextureLoader();
     
     world = new b2World(b2Vec2(0.0f, GRAVITY));
 
-    groundBodies.push_back(createWall(world, 0.0f, BOTTOM_OF_SCREEN, 50.0f, 1.0f));
-    groundBodies.push_back(createWall(world, -SCREEN_WIDTH/2.0f, 0.0f, 1.0f, 50.0f));
-    groundBodies.push_back(createWall(world, SCREEN_WIDTH/2.0f, 0.0f, 1.0f, 50.0f));
+//    _groundBodies.push_back(Wall::wallFactory(world, Vector3(0.0f, BOTTOM_OF_SCREEN, 0.0f),
+//                                              Vector3(10.0f, 10.0f, 0.0f),
+//                                              textureLoader, "stone_icon.png"));
+//    _groundBodies.push_back(Wall::wallFactory(world, Vector3(-SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
+//                                              Vector3(10.0f, 10.0f, 0.0f),
+//                                              textureLoader, "stone_icon.png"));
+//    _groundBodies.push_back(Wall::wallFactory(world, Vector3(SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
+//                                              Vector3(10.0f, 10.0f, 0.0f),
+//                                              textureLoader, "stone_icon.png"));
+    _groundBodies.push_back(Wall::wallFactory(world, Vector3(0.0f, BOTTOM_OF_SCREEN, 0.0f),
+                                              Vector3(50.0f, 1.0f, 0.0f),
+                                              textureLoader, "stone_icon.png"));
+    _groundBodies.push_back(Wall::wallFactory(world, Vector3(-SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
+                                              Vector3(1.0f, 50.0f, 0.0f),
+                                              textureLoader, "stone_icon.png"));
+    _groundBodies.push_back(Wall::wallFactory(world, Vector3(SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
+                                              Vector3(1.0f, 50.0f, 0.0f),
+                                              textureLoader, "stone_icon.png"));
 
 }
 
 Game::~Game()
 {
-    for (b2Body* body : groundBodies)
+    for (Wall* wall : _groundBodies)
     {
-        world->DestroyBody(body);
+        Wall::wallDisposal(wall);
     }
     delete world;
     world = NULL;
@@ -165,7 +157,7 @@ void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
             {
                 NSLog(@"Ended");
                 Vector3 impulse = _trackedTouchStart - touch.curr;
-                if (impulse.lengthSq() >= 0.1f) {
+                if (impulse.lengthSq() >= 0.05f) {
                     NSLog(@"Shot");
                     impulse.setY(impulse.y() * -1.0f);
                     emitABall(impulse * 10.0f);

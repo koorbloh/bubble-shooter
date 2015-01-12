@@ -24,7 +24,6 @@ public:
     Ball(b2World* world, float radius);
     virtual ~Ball();
     
-    void draw();
     void onUpdated(){
         b2Vec2 pos = _body->GetPosition();
         setPosition(Vector3(pos.x, pos.y, 0.0f));
