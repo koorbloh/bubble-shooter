@@ -27,7 +27,7 @@
 #define GRAVITY -4.9f
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
-#define NUM_TEXTURES 3
+#define NUM_TEXTURES 5
 std::string textureNames[] = { "stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
 
 Game::Game()
@@ -46,7 +46,7 @@ Game::Game()
     
     
     Vector3 previewPosition = Vector3(-SCREEN_WIDTH/2.0f + 1, 4.0f, 0.0f);
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 150; i++)
     {
         std::string type = textureNames[RandomUIntBelow(NUM_TEXTURES)];
         _upcomingBalls.push_back(type);
@@ -182,7 +182,7 @@ void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
                 Vector3 impulse = _trackedTouchStart - touch.curr;
                 if (impulse.lengthSq() >= 0.05f) {
                     impulse.setY(impulse.y() * -1.0f);
-                    emitABall(impulse * 10.0f);
+                    emitABall(impulse * 30.0f);
                 }
             }
                 //intentionall fallthrough

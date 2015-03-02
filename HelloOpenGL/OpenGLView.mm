@@ -174,7 +174,7 @@
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
     
     // 1
-    glViewport(self.frame.size.width/4, self.frame.size.height/4, self.frame.size.width/2, self.frame.size.height/2);
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
     game->update(displayLink.duration);
     
