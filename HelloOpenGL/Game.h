@@ -17,6 +17,7 @@
 
 class Ball;
 class Wall;
+class RenderableSprite;
 
 enum InputEventType {
     Began,
@@ -40,13 +41,16 @@ public:
     void handleInput(InputEventType type, const std::vector<Touch>& touches);
     ~Game();
     
-    std::vector<Ball*>& getBalls() { return _balls; }
-    std::vector<Wall*>& getGroundBodies() { return _groundBodies; }
+    const std::vector<Ball*>& getBalls() { return _balls; }
+    const std::vector<Wall*>& getGroundBodies() { return _groundBodies; }
+    const std::vector<RenderableSprite*>& getUpcomingBallPreview() { return _upcomingPreview; }
 private:
     void emitABall(const Vector3& direction);
     void updateProximity();
     void updateBallDrawData();
-    
+
+    std::vector<RenderableSprite*> _upcomingPreview;
+    std::vector<std::string> _upcomingBalls;
     std::vector<Ball*> _balls;
     void* _trackedTouch = nullptr;
     Vector3 _trackedTouchStart;

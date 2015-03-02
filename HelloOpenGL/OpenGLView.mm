@@ -190,6 +190,12 @@
         [self drawRenderableSprite:ball withModelView:modelView];
     }
     
+    for (int i = 0; i < game->getUpcomingBallPreview().size(); i ++)
+    {
+        RenderableSprite* sprite = game->getUpcomingBallPreview()[i];
+        [self drawRenderableSprite:sprite withModelView:modelView];
+    }
+    
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 

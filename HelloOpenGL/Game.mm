@@ -27,21 +27,41 @@
 #define GRAVITY -4.9f
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
+#define NUM_TEXTURES 3
+std::string textureNames[] = { "stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
+
 Game::Game()
 {
     textureLoader = new TextureLoader();
-    
     world = new b2World(b2Vec2(0.0f, GRAVITY));
-
-    _groundBodies.push_back(Wall::wallFactory(world, Vector3(0.0f, BOTTOM_OF_SCREEN, 0.0f),
+    _groundBodies.push_back(Wall::wallFactory(world, Vector3(0.0f, BOTTOM_OF_SCREEN + 1.0f, 0.0f),
                                               Vector3(50.0f, 1.0f, 0.0f),
                                               textureLoader, "stone_icon.png"));
-    _groundBodies.push_back(Wall::wallFactory(world, Vector3(-SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
+    _groundBodies.push_back(Wall::wallFactory(world, Vector3(-SCREEN_WIDTH/2.0f + 1.0f, 0.0f, 0.0f),
                                               Vector3(1.0f, 50.0f, 0.0f),
                                               textureLoader, "stone_icon.png"));
     _groundBodies.push_back(Wall::wallFactory(world, Vector3(SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
                                               Vector3(1.0f, 50.0f, 0.0f),
                                               textureLoader, "stone_icon.png"));
+    
+    
+    Vector3 previewPosition = Vector3(-SCREEN_WIDTH/2.0f + 1, 4.0f, 0.0f);
+    for (int i = 0; i < 15; i++)
+    {
+        std::string type = textureNames[RandomUIntBelow(NUM_TEXTURES)];
+        _upcomingBalls.push_back(type);
+        
+        RenderableSprite* preview = new RenderableSprite();
+        preview->allocBuffers();
+        preview->setupVBO();
+        preview->updatePosition(previewPosition, BALL_RADIUS);
+        preview->loadTexture(type, textureLoader);
+        preview->updateVBO();
+        
+        _upcomingPreview.push_back(preview);
+        
+        previewPosition.setY(previewPosition.y() - 1.0f);
+    }
 
 }
 
@@ -57,17 +77,35 @@ Game::~Game()
     delete textureLoader;
 }
 
-#define NUM_TEXTURES 3
-std::string textureNames[] = { "stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
 
 void Game::emitABall(const Vector3& direction)
 {
-    std::string texture = textureNames[RandomUIntBelow(NUM_TEXTURES)];
-    std::string type = texture; //one and the same for now, I guess?
-    Vector3 pos = Vector3(0.0f, 4.0f, 0.0f);
-    Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture);
-    ball->setVelocity(direction);
-    _balls.push_back(ball);
+    if (_upcomingBalls.size() > 0)
+    {
+        std::string type = _upcomingBalls.front();
+        _upcomingBalls.erase(_upcomingBalls.begin());
+        RenderableSprite* sprite = _upcomingPreview.front();
+        delete sprite;
+        _upcomingPreview.erase(_upcomingPreview.begin());
+        std::string texture = type;
+        Vector3 pos = Vector3(-SCREEN_WIDTH/2.0f + 2, 4.0f, 0.0f);
+        Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture);
+        ball->setVelocity(direction);
+        _balls.push_back(ball);
+        
+        Vector3 previewPosition = Vector3(-SCREEN_WIDTH/2.0f + 1, 4.0f, 0.0f);
+        for (int i = 0; i < _upcomingPreview.size(); i ++)
+        {
+            RenderableSprite* sprite = _upcomingPreview[i];
+            sprite->updatePosition(previewPosition, BALL_RADIUS);
+            previewPosition.setY(previewPosition.y() - 1.0f);
+            sprite->updateVBO();
+        }
+    }
+    else
+    {
+        NSLog(@"OUT OF BALLS");
+    }
 }
 
 void Game::updateBallDrawData()
@@ -127,17 +165,12 @@ void Game::updateProximity()
 
 void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
 {
-//    NSLog(@"HANDLING TOUCHES");
     for (Touch touch : touches)
     {
-//        NSLog(@"touch: %3.3f %3.3f : %3.3f %3.3f", touch.curr.x(),touch.curr.y(),touch.prev.x(),touch.prev.y());
-        
         switch (type) {
             case InputEventType::Began:
-                NSLog(@"start");
                 if (_trackedTouch == nullptr)
                 {
-                    NSLog(@"tracked");
                     _trackedTouch = touch.identifier;
                     _trackedTouchStart = touch.curr;
                 }
@@ -146,17 +179,14 @@ void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
                 break;
             case InputEventType::Ended:
             {
-                NSLog(@"Ended");
                 Vector3 impulse = _trackedTouchStart - touch.curr;
                 if (impulse.lengthSq() >= 0.05f) {
-                    NSLog(@"Shot");
                     impulse.setY(impulse.y() * -1.0f);
                     emitABall(impulse * 10.0f);
                 }
             }
                 //intentionall fallthrough
             case InputEventType::Cancelled: //intentionall fallthrough
-                NSLog(@"untracked");
                 _trackedTouch = nullptr;
             default:
                 break;
