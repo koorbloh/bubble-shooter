@@ -33,15 +33,6 @@ Game::Game()
     
     world = new b2World(b2Vec2(0.0f, GRAVITY));
 
-//    _groundBodies.push_back(Wall::wallFactory(world, Vector3(0.0f, BOTTOM_OF_SCREEN, 0.0f),
-//                                              Vector3(10.0f, 10.0f, 0.0f),
-//                                              textureLoader, "stone_icon.png"));
-//    _groundBodies.push_back(Wall::wallFactory(world, Vector3(-SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
-//                                              Vector3(10.0f, 10.0f, 0.0f),
-//                                              textureLoader, "stone_icon.png"));
-//    _groundBodies.push_back(Wall::wallFactory(world, Vector3(SCREEN_WIDTH/2.0f, 0.0f, 0.0f),
-//                                              Vector3(10.0f, 10.0f, 0.0f),
-//                                              textureLoader, "stone_icon.png"));
     _groundBodies.push_back(Wall::wallFactory(world, Vector3(0.0f, BOTTOM_OF_SCREEN, 0.0f),
                                               Vector3(50.0f, 1.0f, 0.0f),
                                               textureLoader, "stone_icon.png"));

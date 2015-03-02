@@ -16,9 +16,10 @@ Wall* Wall::wallFactory(b2World* world, const Vector3& position, const Vector3& 
     Wall* wall = new Wall(world, position, size);
     wall->allocBuffers();
     wall->setupVBO();
-    wall->loadTexture(textureName, textureLoader);
     
     wall->updatePosition(position, size);
+    wall->loadTexture(textureName, textureLoader);
+    wall->setColor(0.5f, 0.15f, 0.2f, 1.0f);
     wall->updateVBO();
     
     return wall;

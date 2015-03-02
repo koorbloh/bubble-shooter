@@ -41,6 +41,8 @@ public:
     void updatePosition(const Vector3& pos, float radius);
     void updatePosition(const Vector3& pos, const Vector3& size);
     
+    void setColor(float r, float g, float b, float a);
+    
     GLuint getIndexBuffer();
     GLuint getVertexBuffer();    
     
