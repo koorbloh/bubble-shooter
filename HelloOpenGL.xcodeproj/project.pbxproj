@@ -26,6 +26,7 @@
 		35DF647C138C7A0900FF9459 /* CC3Kazmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35DF6475138C7A0900FF9459 /* CC3Kazmath.cpp */; };
 		35DF647D138C7A0900FF9459 /* CC3Math.mm in Sources */ = {isa = PBXBuildFile; fileRef = 35DF6479138C7A0900FF9459 /* CC3Math.mm */; };
 		35DF647F138C869600FF9459 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DF647E138C869600FF9459 /* Icon.png */; };
+		5428A2A61AA6CBF1006AFBBA /* Missions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5428A2A41AA6CBF1006AFBBA /* Missions.mm */; };
 		5480B7571A5A3C2300E6BB31 /* Wall.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5480B7561A5A3C2300E6BB31 /* Wall.mm */; };
 		5491E66D1A00925300857682 /* TextureLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5491E66B1A00925300857682 /* TextureLoader.mm */; };
 		5491E6831A01321300857682 /* gold_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5491E6701A01321300857682 /* gold_icon.png */; };
@@ -127,6 +128,8 @@
 		35DF6478138C7A0900FF9459 /* CC3Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CC3Math.h; sourceTree = "<group>"; };
 		35DF6479138C7A0900FF9459 /* CC3Math.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CC3Math.mm; sourceTree = "<group>"; };
 		35DF647E138C869600FF9459 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		5428A2A41AA6CBF1006AFBBA /* Missions.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Missions.mm; sourceTree = "<group>"; };
+		5428A2A51AA6CBF1006AFBBA /* Missions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Missions.h; sourceTree = "<group>"; };
 		5480B7561A5A3C2300E6BB31 /* Wall.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Wall.mm; sourceTree = "<group>"; };
 		5480B7581A5A3C8400E6BB31 /* Wall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wall.h; sourceTree = "<group>"; };
 		5491E66B1A00925300857682 /* TextureLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TextureLoader.mm; sourceTree = "<group>"; };
@@ -339,6 +342,8 @@
 				5491E66C1A00925300857682 /* TextureLoader.h */,
 				5480B7561A5A3C2300E6BB31 /* Wall.mm */,
 				5480B7581A5A3C8400E6BB31 /* Wall.h */,
+				5428A2A41AA6CBF1006AFBBA /* Missions.mm */,
+				5428A2A51AA6CBF1006AFBBA /* Missions.h */,
 			);
 			path = HelloOpenGL;
 			sourceTree = "<group>";
@@ -628,6 +633,7 @@
 			files = (
 				54F2A42E19FC46690087C1B0 /* b2Rope.cpp in Sources */,
 				54F2A41719FC46690087C1B0 /* b2World.cpp in Sources */,
+				5428A2A61AA6CBF1006AFBBA /* Missions.mm in Sources */,
 				54F2A41119FC46690087C1B0 /* b2StackAllocator.cpp in Sources */,
 				54F2A40519FC46690087C1B0 /* b2Collision.cpp in Sources */,
 				54F2A40419FC46690087C1B0 /* b2CollidePolygon.cpp in Sources */,

@@ -17,7 +17,7 @@
 class Ball : public RenderableSprite {
 public:
     static Ball* ballFactory(b2World* world, const Vector3& position, float radius, const std::string& type,
-                             TextureLoader* textureLoader, const std::string& textureName);
+                             TextureLoader* textureLoader, const std::string& textureName, bool reactive);
     
     static void ballDisposal(Ball* &ball);
     
@@ -52,6 +52,8 @@ public:
     const std::string& getType() { return _type; }
     void setType(const std::string newType) { _type = newType; }
     
+    bool isReactive() { return _reactive; }
+    
     
 private:
     Vector3 _position;
@@ -60,6 +62,7 @@ private:
     b2Body* _body;
     b2Fixture* _fixture;
     b2World* _world;
+    bool _reactive = false;
     std::string _type = "unset";
 };
 

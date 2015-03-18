@@ -45,7 +45,7 @@ public:
     const std::vector<Wall*>& getGroundBodies() { return _groundBodies; }
     const std::vector<RenderableSprite*>& getUpcomingBallPreview() { return _upcomingPreview; }
 private:
-    void emitABall(const Vector3& direction);
+    void emitABall(const Vector3& direction, bool reactive);
     void updateProximity();
     void updateBallDrawData();
 

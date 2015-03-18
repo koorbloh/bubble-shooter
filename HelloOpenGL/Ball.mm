@@ -10,7 +10,7 @@
 
 /*static*/
 Ball* Ball::ballFactory(b2World* world, const Vector3& position, float radius, const std::string& type,
-                         TextureLoader* textureLoader, const std::string& textureName)
+                         TextureLoader* textureLoader, const std::string& textureName, bool reactive)
 {
     Ball* ball = new Ball(world, radius);
     ball->allocBuffers();
@@ -18,7 +18,7 @@ Ball* Ball::ballFactory(b2World* world, const Vector3& position, float radius, c
     ball->setPosition(position);
     ball->loadTexture(textureName, textureLoader);
     ball->setType(textureName);
-    
+    ball->_reactive = reactive;
     return ball;
 }
 

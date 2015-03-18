@@ -12,7 +12,7 @@
 #include "Ball.h"
 #include "Wall.h"
 #include "CC3Math.h"
-
+#include "Missions.h"
 #include <set>
 
 
@@ -62,6 +62,11 @@ Game::Game()
         
         previewPosition.setY(previewPosition.y() - 1.0f);
     }
+    
+    for (int i = 0; i < 30; i++)
+    {
+        emitABall(Vector3(RandomFloatBetween(10.0f, 12.0f), RandomFloatBetween(-1.0f, 0.0f), 0.0f), false);
+    }
 
 }
 
@@ -78,7 +83,7 @@ Game::~Game()
 }
 
 
-void Game::emitABall(const Vector3& direction)
+void Game::emitABall(const Vector3& direction, bool reactive)
 {
     if (_upcomingBalls.size() > 0)
     {
@@ -89,7 +94,7 @@ void Game::emitABall(const Vector3& direction)
         _upcomingPreview.erase(_upcomingPreview.begin());
         std::string texture = type;
         Vector3 pos = Vector3(-SCREEN_WIDTH/2.0f + 2, 4.0f, 0.0f);
-        Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture);
+        Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture, reactive);
         ball->setVelocity(direction);
         _balls.push_back(ball);
         
@@ -118,6 +123,17 @@ void Game::updateBallDrawData()
 
 #define PROXIMITY 0.1f
 #define PROXIMITY_COUNT 3
+
+bool atLeastOneReactive(const std::vector<Ball*>& balls)
+{
+    for (Ball* ball : balls)
+    {
+        if (ball->isReactive())
+            return true;
+    }
+    return false;
+}
+
 void Game::updateProximity()
 {
     std::set<Ball*> toRemove;
@@ -136,7 +152,7 @@ void Game::updateProximity()
                 closeEnough.push_back(_balls[j]);
             }
         }
-        if (closeEnough.size() >= PROXIMITY_COUNT)
+        if (closeEnough.size() >= PROXIMITY_COUNT && atLeastOneReactive(closeEnough))
         {
             //kill'em
             while (closeEnough.size())
@@ -182,7 +198,7 @@ void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
                 Vector3 impulse = _trackedTouchStart - touch.curr;
                 if (impulse.lengthSq() >= 0.05f) {
                     impulse.setY(impulse.y() * -1.0f);
-                    emitABall(impulse * 30.0f);
+                    emitABall(impulse * 30.0f, true);
                 }
             }
                 //intentionall fallthrough
