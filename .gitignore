@@ -3,4 +3,5 @@
 
 # Xcode user data and build folders
 xcuserdata
-
+HelloOpenGL.xcodeproj/xcuserdata/
+HelloOpenGL.xcodeproj/project.xcworkspace/xcuserdata/
