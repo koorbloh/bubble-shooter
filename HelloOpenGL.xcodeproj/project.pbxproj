@@ -26,6 +26,7 @@
 		35DF647C138C7A0900FF9459 /* CC3Kazmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35DF6475138C7A0900FF9459 /* CC3Kazmath.cpp */; };
 		35DF647D138C7A0900FF9459 /* CC3Math.mm in Sources */ = {isa = PBXBuildFile; fileRef = 35DF6479138C7A0900FF9459 /* CC3Math.mm */; };
 		35DF647F138C869600FF9459 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 35DF647E138C869600FF9459 /* Icon.png */; };
+		542560BD1ABB717E00F9E8AB /* egg_template_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 542560BC1ABB717E00F9E8AB /* egg_template_test.png */; };
 		5428A2A61AA6CBF1006AFBBA /* Missions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5428A2A41AA6CBF1006AFBBA /* Missions.mm */; };
 		5480B7571A5A3C2300E6BB31 /* Wall.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5480B7561A5A3C2300E6BB31 /* Wall.mm */; };
 		5491E66D1A00925300857682 /* TextureLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5491E66B1A00925300857682 /* TextureLoader.mm */; };
@@ -128,6 +129,7 @@
 		35DF6478138C7A0900FF9459 /* CC3Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CC3Math.h; sourceTree = "<group>"; };
 		35DF6479138C7A0900FF9459 /* CC3Math.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CC3Math.mm; sourceTree = "<group>"; };
 		35DF647E138C869600FF9459 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		542560BC1ABB717E00F9E8AB /* egg_template_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = egg_template_test.png; sourceTree = "<group>"; };
 		5428A2A41AA6CBF1006AFBBA /* Missions.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Missions.mm; sourceTree = "<group>"; };
 		5428A2A51AA6CBF1006AFBBA /* Missions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Missions.h; sourceTree = "<group>"; };
 		5480B7561A5A3C2300E6BB31 /* Wall.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Wall.mm; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 		352DD49B13D376AD005BA4CC /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				542560BC1ABB717E00F9E8AB /* egg_template_test.png */,
 				5491E6731A01321300857682 /* icon_dps.png */,
 				5491E6741A01321300857682 /* icon_energy.png */,
 				5491E6751A01321300857682 /* icon_hp.png */,
@@ -619,6 +622,7 @@
 				54F2A40019FC46690087C1B0 /* CMakeLists.txt in Resources */,
 				5491E6861A01321300857682 /* icon_dps.png in Resources */,
 				54F2A42F19FC46690087C1B0 /* UseBox2D.cmake in Resources */,
+				542560BD1ABB717E00F9E8AB /* egg_template_test.png in Resources */,
 				5491E6921A01321300857682 /* stone_icon.png in Resources */,
 				5491E6901A01321300857682 /* research_icon.png in Resources */,
 			);

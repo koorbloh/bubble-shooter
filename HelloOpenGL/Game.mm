@@ -28,7 +28,7 @@
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
 #define NUM_TEXTURES 5
-std::string textureNames[] = { "stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
+std::string textureNames[] = { "egg_template_test.png","stone_icon.png","oil_icon.png","gold_icon.png","pyrocite_icon.png","wood_icon.png","steel_icon.png" };
 
 Game::Game()
 {
