@@ -25,6 +25,7 @@
 #define SECONDS_BETWEEN_BALLS 0.5f
 #define BALL_RADIUS 0.5f
 #define GRAVITY -4.9f
+
 float secondsSinceEmit = SECONDS_BETWEEN_BALLS;
 
 #define NUM_TEXTURES 5
@@ -96,6 +97,7 @@ void Game::emitABall(const Vector3& direction, bool reactive)
         Vector3 pos = Vector3(-SCREEN_WIDTH/2.0f + 2, 4.0f, 0.0f);
         Ball* ball = Ball::ballFactory(world, pos, BALL_RADIUS, type, textureLoader, texture, reactive);
         ball->setVelocity(direction);
+        ball->makeBomb();
         _balls.push_back(ball);
         
         Vector3 previewPosition = Vector3(-SCREEN_WIDTH/2.0f + 1, 4.0f, 0.0f);
@@ -123,6 +125,7 @@ void Game::updateBallDrawData()
 
 #define PROXIMITY 0.1f
 #define PROXIMITY_COUNT 3
+#define BOMB_RANGE 1
 
 bool atLeastOneReactive(const std::vector<Ball*>& balls)
 {
@@ -162,6 +165,22 @@ void Game::updateProximity()
             }
         }
     }
+    std::set<Ball*> toRemoveCopy = toRemove;
+    for (Ball* ball : toRemoveCopy)
+    {
+        //ok, if we're blowing up a special type, handle it
+        if (ball->isBomb())
+        {
+            for (int i=0; i < _balls.size(); i++)
+            {
+                float dist = distance(_balls[i]->getPosition(), ball->getPosition());
+                if (dist < BOMB_RANGE)
+                {
+                    toRemove.insert(_balls[i]);
+                }
+            }
+        }
+    }
 
     for (std::vector<Ball*>::iterator iter = _balls.begin();
          iter != _balls.end(); )
@@ -198,7 +217,7 @@ void Game::handleInput(InputEventType type, const std::vector<Touch>& touches)
                 Vector3 impulse = _trackedTouchStart - touch.curr;
                 if (impulse.lengthSq() >= 0.05f) {
                     impulse.setY(impulse.y() * -1.0f);
-                    emitABall(impulse * 30.0f, true);
+                    emitABall(impulse * 15.0f, true);
                 }
             }
                 //intentionall fallthrough

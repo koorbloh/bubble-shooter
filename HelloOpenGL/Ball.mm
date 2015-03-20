@@ -71,3 +71,9 @@ Ball::~Ball()
     _world = NULL;
 }
 
+void Ball::makeBomb()
+{
+    _isBomb = true;
+    setColor(0.5f, 0.5f, 0.5f, 1.0f);
+}
+

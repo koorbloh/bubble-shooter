@@ -53,6 +53,9 @@ public:
     void setType(const std::string newType) { _type = newType; }
     
     bool isReactive() { return _reactive; }
+    bool isBomb() { return _isBomb; }
+    
+    void makeBomb();
     
     
 private:
@@ -63,6 +66,7 @@ private:
     b2Fixture* _fixture;
     b2World* _world;
     bool _reactive = false;
+    bool _isBomb = false;
     std::string _type = "unset";
 };
 
